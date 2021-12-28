@@ -1,0 +1,24 @@
+@import "../node_modules/bootstrap/scss/bootstrap";
+@font-face {
+  font-family: "Saira-Medium";
+  src: url("./Assets/Fonts/Saira-Medium.woff2") format("woff2"),
+    url("./Assets/Fonts/Saira-Medium.woff") format("woff");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Saira-SemiBold";
+  src: url("./Assets/Fonts/Saira-SemiBold.woff2") format("woff2"),
+    url("./Assets/Fonts/Saira-SemiBold.woff") format("woff");
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+body {
+  font-family: "Saira-Medium";
+}
+.edit_btn {
+  text-decoration: underline;
+}

@@ -1,0 +1,97 @@
+@import "../../../Styles/Colors.scss";
+.login_body {
+  background-image: url(../../../Assets/Images/Login_bgImg.png);
+  height: 100vh;
+  filter: invert(1);
+  background-color: #080808;
+  font-family: "Saira-Medium";
+  .login_card {
+    background: $White;
+    filter: invert(1);
+    border-radius: 22px;
+    width: auto;
+    height: auto;
+    top: 50%;
+    left: 50%;
+    position: absolute;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    padding: 40px 130px;
+    .login_form {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 30px 0px;
+      input {
+        margin: 0;
+        font-family: "Saira-Medium";
+        font-size: 12px;
+        line-height: inherit;
+        background: #f5f5f5;
+        // box-shadow: 4px 1px 9px rgba(0, 0, 0, 0.09);
+        border-radius: 6px;
+        width: 295px;
+        height: 37px;
+        margin-left: 10px;
+        padding-left: 12px;
+        border: unset;
+        outline: none;
+      }
+    }
+    .forgot_pass_link {
+      font-size: 12px;
+      line-height: 14px;
+      text-decoration-line: underline;
+
+      a {
+        color: $bg_Login;
+        &:hover {
+          color: $bg_Login;
+          text-decoration: none;
+        }
+      }
+    }
+    .Error-message {
+      margin-top: -20px;
+    }
+  }
+}
+// =================================================== Media Queries =============================================
+@media (max-width: 768px) {
+  .login_body {
+    .login_card {
+      background: $White;
+      filter: invert(1);
+      border-radius: 22px;
+      width: -webkit-fill-available;
+      height: auto;
+      top: 50%;
+      left: 50%;
+      position: absolute;
+      transform: translate(-50%, -50%);
+      text-align: center;
+      padding: 40px 0px;
+      .login_form {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 30px 0px;
+        input {
+          margin: 0;
+          font-family: "Saira-Medium";
+          font-size: 12px;
+          line-height: inherit;
+          background: #f5f5f5;
+          // box-shadow: 4px 1px 9px rgba(0, 0, 0, 0.09);
+          border-radius: 6px;
+          width: 295px;
+          height: 37px;
+          margin-left: 10px;
+          padding-left: 12px;
+          border: unset;
+          outline: none;
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,15 @@
+.btn-wrapper {
+  .btn {
+    font-size: 16px;
+    background: #66276e;
+    border-radius: 22px;
+    color: #ffffff;
+    cursor: pointer;
+    font-weight: 400;
+    padding: 3px 30px 4px 30px;
+    &:focus {
+      outline: none !important;
+      box-shadow: none !important;
+    }
+  }
+}
