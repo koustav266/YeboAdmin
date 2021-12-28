@@ -2,11 +2,11 @@
 const RouteStrings = {
     login: `/login/`,
     otpScreen: '/otp',
+    dashboard: '/dashboard',
+    yeboSave: "/dashboard/yeboSave",
     organizations: '/yebo/dashboard',
-    dashboard: '/yebo/dashboard',
-    
-    manageusers: '/dashboard/manageuser',
-    manageagencies: '/yebo/dashboard/manageagencies',
+    manageusers: '/dashboard/yeboSave/ManageUser',
+    manageagencies: '/dashboard/yeboSave/ManageGurdAgencies',
     guardagencies: '/yebo/dashboard/guardagencies',
     manageguards: '/yebo/dashboard/manageguards',
     feedbacks: '/yebo/dashboard/feedbacks',

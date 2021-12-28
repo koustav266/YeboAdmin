@@ -1,0 +1,110 @@
+.edit_user_section {
+  padding: 30px;
+  width: 75rem;
+  .main_heading {
+    display: flex;
+    justify-content: end;
+    .edit_icon {
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+  }
+  .heading {
+    font-size: 30px;
+    line-height: 47px;
+    color: #66276e;
+    font-family: "Saira-SemiBold";
+    margin-bottom: 35px;
+  }
+  .user_grid {
+    display: flex;
+    align-items: baseline;
+    gap: 30px;
+    p {
+      font-size: 16px;
+      line-height: 28px;
+      color: #66276e;
+      width: 10rem;
+    }
+    input,
+    select {
+      height: 35px;
+    }
+    input,
+    textarea,
+    select {
+      outline: none;
+      background: #f2f2f2;
+      border-radius: 6px;
+      border: unset;
+      width: 18rem;
+      padding: 0px 10px;
+      color: #66276e;
+    }
+    .form-group {
+      display: flex;
+      align-items: baseline;
+      gap: 10px;
+    }
+    .form-control-file,
+    .form-control-range {
+      display: block;
+      width: 60%;
+      background: #fff;
+    }
+  }
+  .adduser-btns {
+    display: flex;
+    justify-content: end;
+    align-items: center;
+    gap: 10px;
+  }
+}
+// =================================================== Media Queries =============================================
+@media (max-width: 767.98px) {
+  .edit_user_section {
+    padding: 10px;
+    width: auto;
+    .user_grid {
+      p {
+        font-size: 16px;
+        line-height: 28px;
+        color: #66276e;
+        width: 7rem;
+      }
+      input,
+      textarea,
+      select {
+        outline: none;
+        background: #f2f2f2;
+        border-radius: 6px;
+        border: unset;
+        width: 10rem;
+        padding: 0px 10px;
+        color: #66276e;
+      }
+    }
+
+    .adduser-btns {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 10px;
+    }
+    .main_heading {
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+      .edit_icon {
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        grid-gap: 5px;
+        gap: 5px;
+        margin-left: 56px;
+      }
+    }
+  }
+}

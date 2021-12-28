@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import "./Sidebar.scss"
+
 import Logo from "../../../Assets/Images/Yebo_logo.png";
 import Profile from "../../../Assets/Icons/Profile.png";
 // import VehicleIcon from "../../../Assets/Icons/Vehicle_icon.png";
@@ -18,24 +19,48 @@ import FleetAgenciesIcon from "../../../Assets/Icons/Fleet_Agencies_Icon.png";
 import GuardAgenciesIcon from "../../../Assets/Icons/Guard_Agencies_Icon.png";
 // import Settings from "../../../Assets/Icons/Settings.png";
 import { NavLink } from 'react-router-dom';
-import { Accordion, Card } from "react-bootstrap";
+import { Accordion, Card, useAccordionButton } from "react-bootstrap";
 import RouteStrings from '../../../routers/routingString';
-const Sidebar = () => {
-    const [yebosafearrow, setYebosafearrow] = useState(false);
-    const [yebotrackarrow, setYebotrackarrow] = useState(false);
 
-
-    const handleClick = () => {
-        console.log("clicked")
-        setYebosafearrow(!yebosafearrow)
-        // setEventKey("0")
+function CustomToggle({ children, eventKey }) {
+ 
+    const decoratedOnClick = useAccordionButton(eventKey, (event) =>{
+      console.log(event.currentTarget, eventKey)
     }
-    const handleBackClick = (event) => {
-        console.log("clicked");
-        setYebotrackarrow(!yebotrackarrow);
-        // setEventKey("1")
+    );
+  
+    return (
+      <button
+        type="button"
+        value={eventKey}
+        style={{ 
+            backgroundColor: 'white',
+            width: "100%",
+            height: "3.5rem",
+            border: "none",
+            
+        }}
+        onClick={decoratedOnClick}
+      >
+        {children}
+    
+      </button>
+    );
+  }
+  
+  function Sidebar() {
+    const [yebosafearrow, setYebosafearrow] = useState([false, false, false]);
+    const handleClick = (event) => {
+        if(yebosafearrow[parseInt(event.currentTarget.value)]){
+            setYebosafearrow([false, false, false])
+        }else{
+            let arr = [false, false, false];
+            arr[parseInt(event.currentTarget.value)] = true;
+            console.log(arr)
+            setYebosafearrow(arr);
+        }
+      
     }
-
     const safedata = [
         {
             Id: 1,
@@ -73,214 +98,97 @@ const Sidebar = () => {
             to: RouteStrings.employeedetails,
         },
     ]
-    const trackdata = [
-        {
-            Id: 1,
-            Name: 'Organization',
-            MenuIcon: OrganizationIcon,
-            // to: `organizations`,
-            to: RouteStrings.organizations,
-        },
-        {
-            Id: 2,
-            Name: 'Employee',
-            MenuIcon: Profile,
-            // to: `employeedetailsupload`,
-            to: RouteStrings.employeedetailsupload,
-        },
-        {
-            Id: 3,
-            Name: 'Manage Agencies',
-            MenuIcon: ManageAgencies,
-            // to: `/manageagencies`,
-            to: RouteStrings.manageagencies,
-        },
-        {
-            Id: 4,
-            Name: 'Guards',
-            MenuIcon: ManageGuards,
-            // to: `/manageguards`,
-            to: RouteStrings.manageguards,
-        },
-        {
-            Id: 5,
-            Name: 'Feedbacks',
-            MenuIcon: FeedbackIcon,
-            // to: `/feedbacks`,
-            to: RouteStrings.feedbacks,
-        },
-        {
-            Id: 6,
-            Name: 'Helpdesk',
-            MenuIcon: InformationIcon,
-            // to: `employeedetails`,
-            to: RouteStrings.employeedetails,
-        },
-
-        {
-            Id: 7,
-            Name: 'Driver',
-            MenuIcon: DriverIcon,
-            // to: `driverdetails`,
-            to: RouteStrings.driverdetails,
-        },
-    ]
-    const agencydata = [
-        {
-            Id: 1,
-            Name: 'Fleet Agencies',
-            MenuIcon: FleetAgenciesIcon,
-            // to: `/manageagencies`,
-            to: RouteStrings.manageagencies,
-        },
-        {
-            Id: 2,
-            Name: 'guardagencies',
-            MenuIcon: GuardAgenciesIcon,
-            // to: `/manageagencies`,
-            to: RouteStrings.guardagencies,
-        },
-    ]
-
     return (
-        <>
-      
-            <div className="sidebar_fullmenu">
-
-                <div className="sidebar-logo">
-                    <img src={Logo} alt="mainlogo" />
-                </div>
-                <Accordion>
-                    <Card>
-                        <Accordion.Toggle
-                            as={Card.Header}
-                            eventKey="0"
-                            onClick={handleClick}
-                        >
-                            <div className="sidebar_heading">
-                                <img src={SOSIcon} alt="profile" />
-                                <h3> Yebo Safe</h3>
-                                {!yebosafearrow ?
-                                    <img src={SideArrow} alt="" /> :
-                                    <img src={UpArrow} alt="" />}
-                            </div>
-                        </Accordion.Toggle >
-                        <Accordion.Collapse eventKey="0">
-                            <Card.Body>
-                                {safedata.map((item) => {
-                                    return (
-                                        <NavLink 
-                                            // to={item.to} 
-                                            // className="nav_linking" 
-                                            // activeClassName='nav_links_active'
-                                        >
-                                            <div 
-                                                className="nav_linking" 
-                                                key={item.ID}>
-                                                    <img src={item.MenuIcon} alt="profile" />
-                                                    <div className="menu_text">
-                                                        <a>{item.Name}</a>
-                                                    </div>
-                                            </div>
-                                        </NavLink>
-                                    )
-                                }
-                                )}
-                            </Card.Body>
-                        </Accordion.Collapse>
-                    </Card>
-          
-                    <Card>
-                        <Accordion.Toggle as={Card.Header} eventKey="1" onClick={handleBackClick}>
-                            <div className="sidebar_heading">
-                                <img src={RTrackIcon} alt="profile" />
-                                <h3>Yebo Track</h3>
-                                {!yebotrackarrow ?
-                                    <img src={SideArrow} alt="" /> :
-                                    <img src={UpArrow} alt="" />}
-                            </div>
-                        </Accordion.Toggle>
-                        <Accordion.Collapse eventKey="1">
-                            <Card.Body>
-                                {trackdata.map((item) => {
-                                    if (item.Name === "Manage Agencies") {
-                        
-                                        return (
-                                            <>
-                                                <Accordion defaultActiveKey="0">
-                                                    <Card>
-                                               
-                                                        <Accordion.Toggle
-                                                            as={Card.Header}
-                                                            eventKey="0"
-                                                            onClick={handleClick}
-                                                        >
-                                                            <div className="sidebar_subheading">
-                                                                <img src={ManageAgencies} alt="profile" />
-                                                                <h3>Agencies </h3>
-                                                                {!yebosafearrow ?
-                                                                    <img src={SideArrow} alt="" /> :
-                                                                    <img src={UpArrow} alt="" />}
-                                                            </div>
-                                                        </Accordion.Toggle >
-                                                        {/* </Card.Header> */}
-                                                        <Accordion.Collapse eventKey="0">
-                                                            <Card.Body>
-                                                                {agencydata.map((item) => {
-                                                                    return (
-                                                                        <NavLink 
-                                                                            to={item.to}
-                                                                            //  className="nav_linking manage_Agencies-subheading" activeClassName='nav_links_active'
-                                                                        >
-                                                                            <div 
-                                                                                className="nav_linking" 
-                                                                                key={item.ID}
-                                                                            >
-                                                                                <img src={item.MenuIcon} alt="profile" />
-                                                                                <div className="menu_text">
-                                                                                    <a>{item.Name}</a>
-                                                                                </div>
-                                                                            </div>
-                                                                        </NavLink>
-                                                                    )
-                                                                }
-                                                                )}
-                                                            </Card.Body>
-                                                        </Accordion.Collapse>
-                                                    </Card>
-                                                </Accordion>
-                                       
-                                            </>
-                                        )
-                                    }
-                                    else {
-                                        return (
-                              
-                                            <NavLink 
-                                                to={item.to} 
-                                                // className="nav_linking " activeClassName='nav_links_active'
-                                                >
-                                                <div className="nav_linking" key={item.ID}>
-                                                    <img src={item.MenuIcon} alt="profile" />
-                                                    <div className="menu_text">
-                                                        <a>{item.Name}</a>
-                                                    </div>
-                                                </div>
-                                            </NavLink>
-                                   
-                                        )
-                                    }
-
-                                }
-                                )}
-                            </Card.Body>
-                        </Accordion.Collapse>
-                    </Card>
-                </Accordion>
-
+        <div className="sidebar_fullmenu">
+            <div className="sidebar-logo">
+                <img src={Logo} alt="mainlogo" />
             </div>
-        </>
-    )
-}
+            <Accordion defaultActiveKey="0">
+                <Card>
+                <Card.Header 
+                    style={{ 
+                        padding: "0px",
+                        border: "none"
+                    }}>
+                    <CustomToggle eventKey="0">
+                        <button className="sidebar_heading" value={"0"} onClick={handleClick}>
+                            <img src={SOSIcon} alt="profile" />
+                            <h3> Yebo Safe</h3>
+                            {yebosafearrow[0]?
+                                <img src={SideArrow} alt="" /> :
+                                <img src={UpArrow} alt="" />}
+                        </button>
+                    </CustomToggle>
+                </Card.Header>
+                <Accordion.Collapse eventKey="0">
+                    <Card.Body>
+                        {safedata.map((item)=>{
+                            return(
+                                <NavLink 
+                                    to={item.to}
+                                >
+                                    <div 
+                                        className="nav_linking" 
+                                        key={item.ID}
+                                    >
+                                        <img src={item.MenuIcon} alt="profile" />
+                                        <div className="menu_text">
+                                            <span>{item.Name}</span>
+                                        </div>
+                                    </div>
+                                </NavLink>
+                            )
+                        })
+                    }
+                            
+                    </Card.Body>
+                </Accordion.Collapse>
+                </Card>
+                <Card>
+                <Card.Header
+                     style={{ 
+                        padding: "0px",
+                        border: "none"
+                    }}>
+                    <CustomToggle eventKey="1">
+                    <button className="sidebar_heading" value={"1"} onClick={handleClick}>
+                            <img src={SOSIcon} alt="profile" />
+                            <h3> Yebo Safe</h3>
+                            {yebosafearrow[1]?
+                                <img src={SideArrow} alt="" /> :
+                                <img src={UpArrow} alt="" />}
+                        </button>
+                    </CustomToggle>
+                </Card.Header>
+                <Accordion.Collapse eventKey="1">
+                    <Card.Body>Hello! I'm another body</Card.Body>
+                </Accordion.Collapse>
+                </Card>
+                <Card>
+                <Card.Header
+                 style={{ 
+                    padding: "0px",
+                    border: "none"
+                }}>
+                    <CustomToggle eventKey="2">
+                    <button className="sidebar_heading" value={"2"} onClick={handleClick}>
+                            <img src={SOSIcon} alt="profile" />
+                            <h3> Yebo Safe</h3>
+                            {yebosafearrow[2]?
+                                <img src={SideArrow} alt="" /> :
+                                <img src={UpArrow} alt="" />}
+                        </button>
+                    </CustomToggle>
+                </Card.Header>
+                <Accordion.Collapse eventKey="2">
+                    <Card.Body>Hello! I'm another body</Card.Body>
+                </Accordion.Collapse>
+                </Card>
+            </Accordion>
+        </div>
+    );
+  }
+  
 
-export default Sidebar
+
+export default Sidebar;

@@ -1,0 +1,13 @@
+.super_admin_section {
+  cursor: pointer;
+
+  .super_admin_profile {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    justify-content: flex-end;
+    p {
+      margin-bottom: 0px;
+    }
+  }
+}

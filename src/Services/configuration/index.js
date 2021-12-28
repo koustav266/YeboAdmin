@@ -7,5 +7,6 @@ export const configUrl = {
     getOrgEmployees: "api/OrgEmployees",
     addEmployeeDetails: "api/OrgEmployees/PostMultipleOrgEmployees",
     getFleetAgency: "api/MasterFleetAgency",
-    addFleetAgency: "api/MasterFleetAgency"
+    addFleetAgency: "api/MasterFleetAgency",
+    getUsers: "api/MasterUsers"
 }

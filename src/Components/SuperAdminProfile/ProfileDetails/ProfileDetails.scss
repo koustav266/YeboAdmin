@@ -1,0 +1,58 @@
+.profile_Details_section {
+  width: 60rem;
+  padding: 2.5rem;
+  h1 {
+    font-family: "Saira-SemiBold";
+    font-size: 30px;
+    line-height: 47px;
+    color: #66276e;
+  }
+  .profile_img_upload {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    img {
+      background-color: #c4c4c4;
+      // padding: 22px;
+      border-radius: 100px;
+      width: 183px;
+      height: 183px;
+      object-fit: cover;
+    }
+  }
+  .details_grid {
+    margin: 25px 0px;
+    .profile_grid {
+      display: flex;
+      align-items: baseline;
+      gap: 30px;
+      p {
+        font-size: 16px;
+        line-height: 28px;
+        color: #66276e;
+        width: 10rem;
+      }
+      input,
+      select {
+        height: 35px;
+      }
+      input,
+      textarea,
+      select {
+        outline: none;
+        background: #f2f2f2;
+        border-radius: 6px;
+        border: unset;
+        width: 220px;
+        padding: 0px 10px;
+        color: #66276e;
+      }
+    }
+    .detail_btns {
+      display: flex;
+      justify-content: end;
+      gap: 25px;
+    }
+  }
+}
