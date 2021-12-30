@@ -1,75 +1,41 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
+import { useDispatch } from 'react-redux';
 import "./AgencyDetails.scss";
-import EditIcon from "../../../Assets/Icons/Edit_Icon.png";
-import Button from "../../../Components/GlobalComponents/Buttons/Button";
-const AgencyDetails = () => {
+import EditIcon from "../../../../Assets/Icons/Edit_Icon.png";
+import Button from "../../../../Components/GlobalComponents/Buttons/Button";
+import GoogleMap from "../../../../Components/GoogleMap/Map"
+import { editGuardAgency } from '../../../../redux/actions/guardAgenciesAction';
+
+const AgencyDetails = ({
+    agencyDetailsData = {},
+    setAgencyDetailsPopup = () => {}
+}) => {
+    const dispatch = useDispatch();
     const [editAgencyDetails, setEditAgencyDetails] = useState(false);
-    const [AgencyData, setAgencyData] = useState({
-        id: 1,
-        OrganizationName: 'ABC Org.',
-        AgencyName: 'ABC Agency',
-        ContactName: 'John Doe',
-        MobileNo: 9876543219,
-        Email: 'abc@xyz.com',
-        Description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-        Latitude: '12.976750',
-        Longitude: '77.575280',
-    })
-    const handleChange = (e) => {
-        const { name, value } = e.target
-        if (name === 'organization_name') {
-            setAgencyData({
-                ...AgencyData,
-                OrganizationName: value,
-            })
-        }
-        else if (name === 'mobile_no') {
-            setAgencyData({
-                ...AgencyData,
-                MobileNo: value,
-            })
-        }
-        if (name === 'Email') {
-            setAgencyData({
-                ...AgencyData,
-                Email: value,
-            })
-        }
-        else if (name === 'description') {
-            setAgencyData({
-                ...AgencyData,
-                Description: value,
-            })
-        }
-        if (name === 'latitude') {
-            setAgencyData({
-                ...AgencyData,
-                Latitude: value,
-            })
-        }
-        else if (name === 'longitude') {
-            setAgencyData({
-                ...AgencyData,
-                Longitude: value,
-            })
-        }
-        if (name === 'agency_name') {
-            setAgencyData({
-                ...AgencyData,
-                AgencyName: value,
-            })
-        }
-        if (name === 'contact_name') {
-            setAgencyData({
-                ...AgencyData,
-                ContactName: value,
-            })
-        }
+    const [AgencyData, setAgencyData] = useState(agencyDetailsData);
+
+    useEffect(()=>{
+        console.log(AgencyData)
+    },[AgencyData])
+
+    const handleChange = (event) => {
+        setAgencyData({
+            ...AgencyData,
+            [event.target.name]: event.target.value
+        })
+    }
+
+    const getLatLng = (lat, lng, pos) => {
+        setAgencyData({
+            ...AgencyData,
+            guardAgencyLocation: lat + "," + lng,
+            guardAgencyAddress: pos
+        })
     }
     return (
         <>
-            <div className="edit_agency_section container">
-                <div className="main_heading">
+            <div className="edit_agency_section">
+                <div className="main_headingGuardAgency">
                     <h1 className="heading">Edit Fleet Agency Details</h1>
                     {!editAgencyDetails && <div className="edit_icon" onClick={() => {
                         setEditAgencyDetails(true);
@@ -77,52 +43,82 @@ const AgencyDetails = () => {
                         <img src={EditIcon} alt="EditIcon" />
                     </div>}
                 </div>
-                <div className="row">
-                    <div className="col-md-6">
-                        <div className="agency_grid my-3">
-                            <p>Organization Name<span className="text-danger">*</span></p>
-                            {editAgencyDetails ?
-                                <input type='text' onChange={handleChange} name='organization_name' value={AgencyData.OrganizationName} style={{ height: 40 }} /> :
-                                <p>{AgencyData.OrganizationName}</p>}
-                        </div>
-                        <div className="agency_grid my-3">
+                <div className="agencydetails">
+                    <div className="agencyCol">
+                        <div className="agency_grid">
                             <p>Agency Name<span className="text-danger">*</span></p>
                             {editAgencyDetails ?
-                                <input type='text' onChange={handleChange} name='agency_name' value={AgencyData.AgencyName} style={{ height: 40 }} /> :
-                                <p>{AgencyData.AgencyName}</p>}
+                                <input 
+                                    type='text' 
+                                    name="guardAgencyName"
+                                    onChange={handleChange} 
+                                    value={AgencyData.guardAgencyName} 
+                                    style={{ height: 40 }} 
+                                /> :
+                                <p>{AgencyData.guardAgencyName}</p>}
                         </div>
-                        <div className="agency_grid my-3">
+                        <div className="agency_grid">
+                            <p>Guard Agency Code<span className="text-danger">*</span></p>
+                            {editAgencyDetails ?
+                                <input 
+                                    type='text' 
+                                    name="guardAgencyCode"
+                                    onChange={handleChange} 
+                                    value={AgencyData.guardAgencyCode} 
+                                    style={{ height: 40 }} 
+                                /> :
+                                <p>{AgencyData.guardAgencyCode}</p>}
+                        </div>
+                        <div className="agency_grid">
                             <p>Contact Name<span className="text-danger">*</span></p>
                             {editAgencyDetails ?
-                                <input type='text' onChange={handleChange} name='contact_name' value={AgencyData.ContactName} style={{ height: 40 }} /> :
-                                <p>{AgencyData.ContactName}</p>}
+                                <input 
+                                    type='text'
+                                    name="contactName" 
+                                    onChange={handleChange} 
+                                    value={AgencyData.contactName} 
+                                    style={{ height: 40 }} 
+                                /> :
+                                <p>{AgencyData.contactName}</p>}
                         </div>
-                        <div className="agency_grid my-3">
-                            <p>Phone Number<span className="text-danger">*</span></p>
+                        <div className="agency_grid">
+                            <p>Mobile no<span className="text-danger">*</span></p>
                             {editAgencyDetails ?
-                                <input type='text' onChange={handleChange} name='mobile_no' value={AgencyData.MobileNo} style={{ height: 40 }} /> :
-                                <p>{AgencyData.MobileNo}</p>}
+                                <input 
+                                    type='text' 
+                                    name="mobileNo"
+                                    onChange={handleChange} 
+                                    value={AgencyData.mobileNo} 
+                                    style={{ height: 40 }} 
+                                /> :
+                                <p>{AgencyData.mobileNo}</p>}
                         </div>
-                        <div className="agency_grid my-3">
+                        <div className="agency_grid">
                             <p>Email<span className="text-danger">*</span></p>
                             {editAgencyDetails ?
-                                <input type='email' onChange={handleChange} name='Email' value={AgencyData.Email} style={{ height: 40 }} /> :
-                                <p>{AgencyData.Email}</p>}
+                                <input 
+                                    type='email' 
+                                    name="emailId"
+                                    onChange={handleChange} 
+                                    value={AgencyData.emailId} 
+                                    style={{ height: 40 }} 
+                                /> :
+                                <p>{AgencyData.emailId}</p>}
                         </div>
                         <div className="agency_grid my-2">
                             <p>Description</p>
                             {editAgencyDetails ?
                                 <textarea
                                     name='description'
-                                    value={AgencyData.Description}
+                                    value={AgencyData.description}
                                     onChange={handleChange}
                                     aria-describedby="helpId"
                                     cols="30"
                                     rows="4">
                                 </textarea> :
-                                <p>{AgencyData.Description}</p>}
+                                <p>{AgencyData.description}</p>}
                         </div>
-                        <div className="agency_grid my-3">
+                        <div className="agency_grid">
                             <form>
                                 <div className="form-group">
                                     <p style={{ width: ' 60%' }}>Upload document/ images</p>
@@ -132,18 +128,39 @@ const AgencyDetails = () => {
                         </div>
                     </div>
                     <div className="col-md-5 offset-md-1">
-                        <div className="agency_grid my-3">
+                        <div className="agency_grid">
                             <p>Latitude</p>
-                            {editAgencyDetails ?
-                                <input type='text' onChange={handleChange} name='latitude' value={AgencyData.Latitude} style={{ height: 40 }} /> :
-                                <p>{AgencyData.Latitude}</p>}
+                            {/* {editAgencyDetails ?
+                                <input 
+                                    type='text' 
+                                    onChange={handleChange} 
+                                    name='latitude' 
+                                    value={AgencyData.Latitude} 
+                                    style={{ height: 40 }} /> : */}
+                                <p>{AgencyData.guardAgencyLocation ? 
+                                    AgencyData.guardAgencyLocation.split(",")[0] : ""}</p>
+                                    {/* } */}
                         </div>
-                        <div className="agency_grid my-3">
+                        <div className="agency_grid">
                             <p>Longitude</p>
-                            {editAgencyDetails ?
-                                <input type='text' onChange={handleChange} name='longitude' value={AgencyData.Longitude} style={{ height: 40 }} /> :
-                                <p>{AgencyData.Longitude}</p>}
+                            {/* {editAgencyDetails ?
+                                <input 
+                                    type='text' 
+                                    onChange={handleChange} 
+                                    name='longitude' 
+                                    value={AgencyData.Longitude} 
+                                    style={{ height: 40 }} /> : */}
+                                <p>{AgencyData.guardAgencyLocation ? 
+                                    AgencyData.guardAgencyLocation.split(",")[1] : ""}</p>
+                                    {/* } */}
                         </div>
+                        <GoogleMap 
+                            lat={parseInt(AgencyData.guardAgencyLocation.split(",")[0])} 
+                            lng= {parseInt(AgencyData.guardAgencyLocation.split(",")[1])}
+                            editDetails={editAgencyDetails}
+                            locationAddresh={AgencyData.guardAgencyAddress}
+                            getLatLng = {getLatLng}
+                        />
                     </div>
                 </div>
                 {/* <div className="banking_details">
@@ -169,7 +186,10 @@ const AgencyDetails = () => {
                     </div>
                 </div> */}
                 <div className="addagency-btns">
-                    <Button title='Save' />
+                    <Button title='Save' OnClick={() => {
+                        dispatch(editGuardAgency(AgencyData));
+                        setAgencyDetailsPopup(false)
+                    }} />
                     <Button title='Cancel' />
                 </div>
             </div>

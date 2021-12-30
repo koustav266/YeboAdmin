@@ -8,5 +8,8 @@ export const configUrl = {
     addEmployeeDetails: "api/OrgEmployees/PostMultipleOrgEmployees",
     getFleetAgency: "api/MasterFleetAgency",
     addFleetAgency: "api/MasterFleetAgency",
-    getUsers: "api/MasterUsers"
+    getUsers: "api/MasterUsers",
+    getGuardAgencies: "api/MasterGuardAgency",
+    postMasterGuardAgency: "api/MasterGuardAgency",
+    editMasterGuardAgency: "api/MasterGuardAgency/"
 }

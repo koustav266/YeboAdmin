@@ -2,63 +2,101 @@ import React, { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux';
 import "./AddAgencies.scss";
 import Button from "../../../../Components/GlobalComponents/Buttons/Button";
-import OrganizationDropDown from '../../../../Components/OrganizationDropDown/OrganizationDropDown';
 import GoogleMap from '../../../../Components/GoogleMap/Map';
-// import { addFleetAgenciesAction } from '../../../redux/actions/fleetAgencyAction';
+import { addGuardAgency } from '../../../../redux/actions/guardAgenciesAction';
 
-const AddAgencies = () => {
-    const [fleetAgenciesData, setFleetAgenciesData] = useState({});
+const AddAgencies = ({
+    setAddAgencyPopup = ()=>{}
+}) => {
+    const [guardAgenciesData, setguardAgenciesData] = useState({});
+    const [error, setError] = useState(false);
     const dispatch = useDispatch();
-    // useEffect(()=>{
-    //     console.log(fleetAgenciesData)
-    // },[fleetAgenciesData])
+    useEffect(()=>{
+        console.log(guardAgenciesData)
+    },[guardAgenciesData])
     const handleChange = (event) => {
-        setFleetAgenciesData({
-            ...fleetAgenciesData,
+        setguardAgenciesData({
+            ...guardAgenciesData,
             [event.target.name]: event.target.value
         })
     }
     const getLatLng = (lat, lng, pos) => {
-        setFleetAgenciesData({
-            ...fleetAgenciesData,
-            fleetAgencyLocation: lat + "," + lng,
-            fleetAgencyAddress: pos
+        setguardAgenciesData({
+            ...guardAgenciesData,
+            guardAgencyLocation: lat + "," + lng,
+            guardAgencyAddress: pos
         })
+    }
+
+    const handleSubmit = () => {
+        if(
+            guardAgenciesData.guardAgencyName &&
+            guardAgenciesData.guardAgencyName!== ""&&
+            guardAgenciesData.contactName && 
+            guardAgenciesData.contactName !== "",
+            guardAgenciesData.mobileNo && 
+            guardAgenciesData.mobileNo !== "" &&
+            guardAgenciesData.emailId &&
+            // guardAgenciesData.emailId !== "" &&
+            // guardAgenciesData.description &&
+            guardAgenciesData.description !== "" &&
+            guardAgenciesData.guardAgencyLocation 
+        ){
+            dispatch(addGuardAgency(guardAgenciesData))
+            setAddAgencyPopup(false)
+        }else{
+            setError(true);
+        }
     }
     return (
         <>
             <div className="add_agency_section container">
-                <h1 className="heading">Add Fleet Agency</h1>
+                <h1 className="heading">Add Agency</h1>
                 <div className="row">
                     <div className="col-md-6">
-                        <div className="agency_grid my-2">
-                            <p>Organization Name<span className="text-danger">*</span></p>
-                            <OrganizationDropDown handleSelect={(event) => setFleetAgenciesData({
-                                ...fleetAgenciesData,
-                                idOrganisation: event.target.value
-                            })}/>
-                        </div>
-                        <div className="agency_grid my-2">
+                        <div className="agency_grid">
                             <p>Agency Name<span className="text-danger">*</span></p>
-                            {/* <input type="text" name="fleetAgencyCode" maxLength="6" onChange={handleChange}/> */}
+                            <input type="text" name="guardAgencyName"  onChange={handleChange}/>
                         </div>
-                        <div className="agency_grid my-2">
-                            <p>Agency Code<span className="text-danger">*</span></p>
-                            {/* <input type="text" name="fleetAgencyName" onChange={handleChange}/> */}
+                        {error && 
+                            (guardAgenciesData.guardAgencyName === "" ||
+                            guardAgenciesData.guardAgencyName === undefined) && 
+                            <p className='errorMessage'>required</p>} 
+                        
+                        <div className="agency_grid">
+                            <p>Guard Agency Code<span className="text-danger">*</span></p>
+                            <input type="text" name="guardAgencyCode"  onChange={handleChange}/>
                         </div>
-                        <div className="agency_grid my-2">
+                        {error && 
+                            (guardAgenciesData.guardAgencyCode === "" ||
+                            guardAgenciesData.guardAgencyCode === undefined) && 
+                            <p className='errorMessage'>required</p>} 
+                        
+                        <div className="agency_grid">
                             <p>Contact Name<span className="text-danger">*</span></p>
                             <input type="text" name="contactName" onChange={handleChange}/>
                         </div>
-                        <div className="agency_grid my-2">
-                            <p>Phone Number<span className="text-danger">*</span></p>
+                        {error && 
+                            (guardAgenciesData.contactName === "" ||
+                            guardAgenciesData.contactName === undefined) && 
+                            <p className='errorMessage'>required</p>}
+                        <div className="agency_grid">
+                            <p>Mobile no<span className="text-danger">*</span></p>
                             <input type="number"  name='mobileNo' onChange={handleChange} maxlength="10"/>
                         </div>
-                        <div className="agency_grid my-2">
+                        {error && 
+                            (guardAgenciesData.mobileNo === "" ||
+                            guardAgenciesData.mobileNo === undefined) && 
+                            <p className='errorMessage'>required</p>}
+                        <div className="agency_grid">
                             <p>Email<span className="text-danger">*</span></p>
                             <input type="email" name="emailId" onChange={handleChange}/>
                         </div>
-                        <div className="agency_grid my-2">
+                        {error && 
+                            (guardAgenciesData.emailId === "" ||
+                            guardAgenciesData.emailId === undefined) && 
+                            <p className='errorMessage'>required</p>}
+                        <div className="agency_grid">
                             <p>Descipration</p>
                             <textarea
                                 name="description"
@@ -68,38 +106,42 @@ const AddAgencies = () => {
                                 rows="3">
                             </textarea>
                         </div>
-                        <div className="agency_grid my-2">
-                            <form>
+                        <div className="agency_grid">
+                            
                                 <div className="form-group">
                                     <p style={{ width: ' 60%' }}>Upload document/ images</p>
                                     <input type="file" className="form-control-file" id="exampleFormControlFile1" />
                                 </div>
-                            </form>
+                         
                         </div>
                     </div>
                     <div className="col-md-6">
-                        <div className="agency_grid my-2">
+                        <div className="agency_grid">
                             <p>Latitude</p>
                             <input type="text" readOnly value={
-                                fleetAgenciesData.fleetAgencyLocation ? 
-                                fleetAgenciesData.fleetAgencyLocation.split(",")[0] : ""} />
+                                guardAgenciesData.guardAgencyLocation ? 
+                                guardAgenciesData.guardAgencyLocation.split(",")[0] : ""} />
                         </div>
-                        <div className="agency_grid my-2">
+                        <div className="agency_grid">
                             <p>Longitude</p>
                             <input type="text" readOnly value={
-                                fleetAgenciesData.fleetAgencyLocation ? 
-                                fleetAgenciesData.fleetAgencyLocation.split(",")[1] : ""}/>
+                                guardAgenciesData.guardAgencyLocation ? 
+                                guardAgenciesData.guardAgencyLocation.split(",")[1] : ""}/>
                         </div>
                         <div className="agency_map">
                             <GoogleMap getLatLng={getLatLng} />
                         </div>
+                        {error && 
+                            (guardAgenciesData.guardAgencyLocation === "" ||
+                            guardAgenciesData.guardAgencyLocation === undefined) && 
+                            <p className='errorMessage'>select location</p>}
                     </div>
                 </div>
                 <div className="addagency-btns">
-                    <Button title='Save' OnClick={
-                        () => dispatch(addFleetAgenciesAction(fleetAgenciesData))
-                    } />
-                    <Button title='Cancel' />
+                    <Button title='Save' 
+                    OnClick={handleSubmit} 
+                    />
+                    <Button title='Cancel' OnClick={() => setAddAgencyPopup(false)}/>
                 </div>
             </div>
         </>

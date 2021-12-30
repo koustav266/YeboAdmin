@@ -2,35 +2,40 @@ import React, { useState, useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux';
 import "./ManageGuardAgencies.scss";
 import AddIcon from "../../../Assets/Icons/Add_Icon.png";
-// import AddAgencies from "./AddAgencies/AddAgencies";
-// import Popup from "../../../Components/Popup/Popup";
+import AddAgencies from "./AddAgencies/AddAgencies";
+import Popup from "../../../Components/Popup/Popup";
 import ReactTable from "../../../Components/ReactTable/ReactTable";
-// import AgencyDetails from "./AgencyDetails/AgencyDetails";
-// import OrganizationEmptyScreen from "../../../Components/OrganizationEmptyScreen/OrganizationEmptyScreen"
+import AgencyDetails from "./AgencyDetails/AgencyDetails";
 import SuperAdminProfile from '../../../Components/SuperAdminProfile/SuperAdminProfile';
 // import { ExportToExcel } from '../../../Components/ExportToExcel/ExportToExcel';
 // import ImportExcel from '../../../Components/ImportExcel/ImportExcel';
 // import PopupService from "../../../Components/PopupService/PopupService";
 // import downloadIcon from "../../../Assets/Icons/downloadBtn.png"
+import SearchBox from '../../../Components/SerachBox/SearchBox';
 
-// import OrganizationDropDown from '../../../Components/OrganizationDropDown/OrganizationDropDown';
-// import { fetchFleetAgencies } from "../../redux/actions/fleetAgencyAction"
+
+import { fetchGuardAgencies } from '../../../redux/actions/guardAgenciesAction';
 // import DeleteUserPopup from "./DeleteUserPopup/DeleteUserPopup";
 
 
 const ManageGurdAgencies = () => {
-    // const fleetAgencyData  = useSelector(state => state.fleetAgencies.fleetAgencies);
-    // const dispatch = useDispatch()
-    // const [addAgencyPopup, setAddAgencyPopup] = useState(false);
-    // const [AgencyDetailsPopup, setAgencyDetailsPopup] = useState(false);
+    const guardAgencyData  = useSelector(state => state.guardAgencies.guardAgencies);
+    const dispatch = useDispatch()
+    const [addAgencyPopup, setAddAgencyPopup] = useState(false);
+    const [AgencyDetailsPopup, setAgencyDetailsPopup] = useState(false);
+    const [agencyDetailsData, setAgencyDetailsData] = useState({});
     const [importExcelDetails, setImportExcelDetails] = useState(false);
     const [showNoData, setshowNoData] = useState(true);
+    const [data, setData] = useState([]);
 
-    // useEffect(()=>{
-    //     if(fleetAgencyData.length === 0)
-    //         dispatch(fetchFleetAgencies());
-    // },[])
+    useEffect(()=>{
+        if(guardAgencyData.length === 0)
+            dispatch(fetchGuardAgencies());
+    },[])
 
+    useEffect(()=>{
+        setData(guardAgencyData)
+    },[guardAgencyData])
 
     const handleSelectOrg = (event) => {
         const { value } = event.target
@@ -39,7 +44,6 @@ const ManageGurdAgencies = () => {
             setshowNoData(false)
         } else {
             setshowNoData(true)
-
         }
     }
 
@@ -49,9 +53,10 @@ const ManageGurdAgencies = () => {
             accessor: 'contactName',
             Cell: ({ row, cell: { value } }) => (
                 <div className="editline_btn" 
-                    // onClick={() => {
-                    // setAgencyDetailsPopup(true);
-                    // }}
+                    onClick={() => {
+                        setAgencyDetailsPopup(true);
+                        setAgencyDetailsData(row.original)
+                    }}
                 >
                     {value}
                 </div>
@@ -62,9 +67,10 @@ const ManageGurdAgencies = () => {
             accessor: 'emailId',
             Cell: ({ row, cell: { value } }) => (
                 <div 
-                    // onClick={() => {
-                    //     // setAgencyDetailsPopup(true);
-                    // }}
+                    onClick={() => {
+                        setAgencyDetailsPopup(true);
+                        setAgencyDetailsData(row.original);
+                    }}
                 >
                     {value}
                 </div>
@@ -75,9 +81,10 @@ const ManageGurdAgencies = () => {
             accessor: 'mobileNo',
             Cell: ({ row, cell: { value } }) => (
                 <div 
-                    // onClick={() => {
-                    // setAgencyDetailsPopup(true);
-                    // }}
+                    onClick={() => {
+                    setAgencyDetailsPopup(true);
+                    setAgencyDetailsData(row.original);
+                    }}
                 >
                     {value}
                 </div>
@@ -85,12 +92,13 @@ const ManageGurdAgencies = () => {
         },
         {
             Header: 'Address',
-            accessor: 'fleetAgencyAddress',
+            accessor: 'guardAgencyAddress',
             Cell: ({ row, cell: { value } }) => (
                 <div 
-                    // onClick={() => {
-                    // setAgencyDetailsPopup(true);
-                    // }}
+                    onClick={() => {
+                        setAgencyDetailsPopup(true);
+                        setAgencyDetailsData(row.original);
+                    }}
                 >
                     {value}
                 </div>
@@ -101,9 +109,10 @@ const ManageGurdAgencies = () => {
             accessor: 'description',
             Cell: ({ row, cell: { value } }) => (
                 <div 
-                    // onClick={() => {
-                    //     setAgencyDetailsPopup(true);
-                    // }}
+                    onClick={() => {
+                        setAgencyDetailsPopup(true);
+                        setAgencyDetailsData(row.original);
+                    }}
                 >
                     {value}
                 </div>
@@ -132,25 +141,32 @@ const ManageGurdAgencies = () => {
             <div className="manage_agency">
                 <div className="d-flex">
                     <div className="manage_agency_div container py-5">
-                        <SuperAdminProfile />
+                        
                         <div className="main_heading">
-                            <h1>Fleet Agencies</h1>
+                            <h1>Manage Agencies</h1>
+                            <SuperAdminProfile />
                         </div>
                         <div className="sub_heading my-4">
                             <div className="date_search">
-                                <div className="organization">
-                                    <span>Organization</span>
-                                    {/* <OrganizationDropDown handleSelect = {handleSelectOrg} /> */}
-                                </div>
-                                {/* <div div className="add_agency" onClick={() => {
+                                <div div className="add_agency" onClick={() => {
                                     setAddAgencyPopup(true)
                                 }} >
                                     <img src={AddIcon} alt="AddIcon" />
                                     <span>Add</span>
-                                </div> */}
+                                </div>
                                 <div className="search_bar">
                                     <span>Search</span>
-                                    {/* <input onChange={handleSearchElements} value={[{ou:"jkj"}]} /> */}
+                                    <SearchBox 
+                                        data={guardAgencyData} 
+                                        setData={setData} 
+                                        elements={[
+                                           "guardAgencyName",
+                                            "emailId",
+                                            "mobileNo",
+                                            "guardAgencyAddress",
+                                            "description"
+                                        ]}
+                                    />
                                 </div>
                             </div>
                         </div>
@@ -169,20 +185,20 @@ const ManageGurdAgencies = () => {
                                 import
                             </button>
                         </div> */}
-                        {/* <div className="manage_agency_table">
-                            {showNoData ? <OrganizationEmptyScreen /> :
-                                <ReactTable columns={columns} data={fleetAgencyData} />}
-                        </div> */}
+                        <div className="manage_agency_table">
+                          
+                                <ReactTable columns={columns} data={data} />
+                        </div>
                         {/* <div className="manage_btn" onClick={() => { setDeletePopup(true) }}>
                             <Button title='Delete' />
                         </div> */}
-                        {/* <Popup trigger={addAgencyPopup} setTrigger={setAddAgencyPopup}>
-                            <AddAgencies />
+                        <Popup trigger={addAgencyPopup} setTrigger={setAddAgencyPopup}>
+                            <AddAgencies setAddAgencyPopup={setAddAgencyPopup}/>
                         </Popup>
                         <Popup trigger={AgencyDetailsPopup} setTrigger={setAgencyDetailsPopup}>
-                            <AgencyDetails />
+                            <AgencyDetails setAgencyDetailsPopup={setAgencyDetailsPopup} agencyDetailsData = {agencyDetailsData}/>
                         </Popup>
-                        <PopupService trigger={importExcelDetails} setTrigger={setImportExcelDetails}>
+                        {/* <PopupService trigger={importExcelDetails} setTrigger={setImportExcelDetails}>
                             <ImportExcel setTrigger={setImportExcelDetails} />
                         </PopupService> */}
                         {/* <Popup trigger={deletePopup} setTrigger={setDeletePopup}>

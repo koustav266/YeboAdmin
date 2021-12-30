@@ -111,21 +111,22 @@ function CustomToggle({ children, eventKey }) {
                         border: "none"
                     }}>
                     <CustomToggle eventKey="0">
-                        <button className="sidebar_heading" value={"0"} onClick={handleClick}>
+                        <div className="sidebar_heading" value={"0"} onClick={handleClick}>
                             <img src={SOSIcon} alt="profile" />
                             <h3> Yebo Safe</h3>
                             {yebosafearrow[0]?
                                 <img src={SideArrow} alt="" /> :
                                 <img src={UpArrow} alt="" />}
-                        </button>
+                        </div>
                     </CustomToggle>
                 </Card.Header>
                 <Accordion.Collapse eventKey="0">
                     <Card.Body>
-                        {safedata.map((item)=>{
+                        {safedata.map((item, index)=>{
                             return(
                                 <NavLink 
                                     to={item.to}
+                                    key={index}
                                 >
                                     <div 
                                         className="nav_linking" 
@@ -151,13 +152,13 @@ function CustomToggle({ children, eventKey }) {
                         border: "none"
                     }}>
                     <CustomToggle eventKey="1">
-                    <button className="sidebar_heading" value={"1"} onClick={handleClick}>
+                    <div className="sidebar_heading" value={"1"} onClick={handleClick}>
                             <img src={SOSIcon} alt="profile" />
                             <h3> Yebo Safe</h3>
                             {yebosafearrow[1]?
                                 <img src={SideArrow} alt="" /> :
                                 <img src={UpArrow} alt="" />}
-                        </button>
+                        </div>
                     </CustomToggle>
                 </Card.Header>
                 <Accordion.Collapse eventKey="1">
@@ -171,13 +172,13 @@ function CustomToggle({ children, eventKey }) {
                     border: "none"
                 }}>
                     <CustomToggle eventKey="2">
-                    <button className="sidebar_heading" value={"2"} onClick={handleClick}>
+                    <div className="sidebar_heading" value={"2"} onClick={handleClick}>
                             <img src={SOSIcon} alt="profile" />
                             <h3> Yebo Safe</h3>
                             {yebosafearrow[2]?
                                 <img src={SideArrow} alt="" /> :
                                 <img src={UpArrow} alt="" />}
-                        </button>
+                        </div>
                     </CustomToggle>
                 </Card.Header>
                 <Accordion.Collapse eventKey="2">

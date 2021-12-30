@@ -5,7 +5,6 @@ import { addFleetAgency } from "../../Services/ApiServices/addFleetAgency"
 export const fetchFleetAgencies = () => async (dispatch) => {
     const response = await getFleetAgency();
     dispatch({type: ActionTypes.FETCH_FLEET_AGENCIES, payload: response})
-    
 }
 
 export const addFleetAgenciesAction = (data) => async (dispatch) => {

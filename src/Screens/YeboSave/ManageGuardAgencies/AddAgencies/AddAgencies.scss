@@ -8,6 +8,15 @@
     font-family: "Saira-SemiBold";
     margin-bottom: 35px;
   }
+
+  .row{
+    .errorMessage{
+      font-size: 0.8rem;
+      color: red;
+      margin: 0rem;
+      margin-left: 20.7rem;
+    }
+  }
   .agency_grid {
     display: flex;
     grid-gap: 30px;
@@ -18,6 +27,7 @@
       line-height: 16px;
       color: #66276e;
       width: 35%;
+      margin: 0rem;
     }
     span {
       font-size: 16px;
@@ -36,13 +46,15 @@
       border-radius: 6px;
       border: unset;
       width: 200px;
-      padding: 0.2rem;
+      padding: 0.2rem 1rem;
+      margin-top: 1rem;
       // color: #66276e;
     }
     .form-group {
       display: flex;
       align-items: baseline;
       gap: 10px;
+      margin-top: 4rem;
     }
     .form-control-file,
     .form-control-range {
@@ -57,21 +69,6 @@
     align-items: center;
     gap: 10px;
   }
-  // .banking_details {
-  //   .sub_heading {
-  //     font-size: 22px;
-  //     font-family: "Saira-Medium";
-  //     line-height: 35px;
-  //     color: #66276e;
-  //   }
-  //   .date__picker {
-  //     width: 100%;
-  //   }
-  // }
-  // .agency_map {
-  //   width: 90%;
-  //   height: 80%;
-  // }
 }
 // =================================================== Media Queries =============================================
 @media (max-width: 767.98px) {

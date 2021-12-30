@@ -47,7 +47,7 @@ const ManageUser = () => {
                 </div>
             ),
         },{
-            Header: 'Adresh',
+            Header: 'Addresh',
             accessor: 'address1',
             Cell: ({ row, cell: { value } }) => (
                 <div>
