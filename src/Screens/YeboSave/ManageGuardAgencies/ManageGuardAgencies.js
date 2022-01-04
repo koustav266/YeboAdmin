@@ -12,9 +12,8 @@ import SuperAdminProfile from '../../../Components/SuperAdminProfile/SuperAdminP
 // import PopupService from "../../../Components/PopupService/PopupService";
 // import downloadIcon from "../../../Assets/Icons/downloadBtn.png"
 import SearchBox from '../../../Components/SerachBox/SearchBox';
-
-
 import { fetchGuardAgencies } from '../../../redux/actions/guardAgenciesAction';
+import { showLoader, hideLoader } from '../../../redux/actions/loaderAction';
 // import DeleteUserPopup from "./DeleteUserPopup/DeleteUserPopup";
 
 
@@ -22,16 +21,19 @@ const ManageGurdAgencies = () => {
     const guardAgencyData  = useSelector(state => state.guardAgencies.guardAgencies);
     const dispatch = useDispatch()
     const [addAgencyPopup, setAddAgencyPopup] = useState(false);
-    const [AgencyDetailsPopup, setAgencyDetailsPopup] = useState(false);
+    const [agencyDetailsPopup, setAgencyDetailsPopup] = useState(false);
     const [agencyDetailsData, setAgencyDetailsData] = useState({});
     const [importExcelDetails, setImportExcelDetails] = useState(false);
     const [showNoData, setshowNoData] = useState(true);
     const [data, setData] = useState([]);
 
-    useEffect(()=>{
-        if(guardAgencyData.length === 0)
-            dispatch(fetchGuardAgencies());
-    },[])
+    useEffect(async ()=>{
+        if(guardAgencyData && guardAgencyData.length === 0){
+            dispatch(showLoader())
+            await dispatch(fetchGuardAgencies());
+            dispatch(hideLoader())
+        }
+    },[]);
 
     useEffect(()=>{
         setData(guardAgencyData)
@@ -82,8 +84,8 @@ const ManageGurdAgencies = () => {
             Cell: ({ row, cell: { value } }) => (
                 <div 
                     onClick={() => {
-                    setAgencyDetailsPopup(true);
-                    setAgencyDetailsData(row.original);
+                        setAgencyDetailsPopup(true);
+                        setAgencyDetailsData(row.original);
                     }}
                 >
                     {value}
@@ -195,8 +197,10 @@ const ManageGurdAgencies = () => {
                         <Popup trigger={addAgencyPopup} setTrigger={setAddAgencyPopup}>
                             <AddAgencies setAddAgencyPopup={setAddAgencyPopup}/>
                         </Popup>
-                        <Popup trigger={AgencyDetailsPopup} setTrigger={setAgencyDetailsPopup}>
-                            <AgencyDetails setAgencyDetailsPopup={setAgencyDetailsPopup} agencyDetailsData = {agencyDetailsData}/>
+                        <Popup trigger={agencyDetailsPopup} setTrigger={setAgencyDetailsPopup}>
+                            <AgencyDetails 
+                                setAgencyDetailsPopup={setAgencyDetailsPopup} 
+                                agencyDetailsData = {agencyDetailsData}/>
                         </Popup>
                         {/* <PopupService trigger={importExcelDetails} setTrigger={setImportExcelDetails}>
                             <ImportExcel setTrigger={setImportExcelDetails} />

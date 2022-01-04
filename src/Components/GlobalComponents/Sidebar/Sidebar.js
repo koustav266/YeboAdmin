@@ -34,11 +34,10 @@ function CustomToggle({ children, eventKey }) {
         type="button"
         value={eventKey}
         style={{ 
-            backgroundColor: 'white',
             width: "100%",
             height: "3.5rem",
             border: "none",
-            
+            background: "transparent",
         }}
         onClick={decoratedOnClick}
       >
@@ -50,12 +49,12 @@ function CustomToggle({ children, eventKey }) {
   
   function Sidebar() {
     const [yebosafearrow, setYebosafearrow] = useState([false, false, false]);
-    const handleClick = (event) => {
-        if(yebosafearrow[parseInt(event.currentTarget.value)]){
+    const handleClick = (element) => {
+        if(yebosafearrow[element]){
             setYebosafearrow([false, false, false])
         }else{
             let arr = [false, false, false];
-            arr[parseInt(event.currentTarget.value)] = true;
+            arr[element] = true;
             console.log(arr)
             setYebosafearrow(arr);
         }
@@ -81,7 +80,7 @@ function CustomToggle({ children, eventKey }) {
             Name: 'Manage Guards',
             MenuIcon: ManageGuards,
             // to: `/manageguards`,
-            to: RouteStrings.manageguards,
+            to: RouteStrings.manageGuards,
         },
         {
             Id: 4,
@@ -104,14 +103,18 @@ function CustomToggle({ children, eventKey }) {
                 <img src={Logo} alt="mainlogo" />
             </div>
             <Accordion defaultActiveKey="0">
-                <Card>
+                <Card style={{
+                    background: "transparent",
+                    border: "none"
+                }}>
                 <Card.Header 
                     style={{ 
                         padding: "0px",
-                        border: "none"
+                        border: "none",
+                        background: "transparent"
                     }}>
-                    <CustomToggle eventKey="0">
-                        <div className="sidebar_heading" value={"0"} onClick={handleClick}>
+                    <CustomToggle eventKey="0" style={{background: "transparent"}}>
+                        <div className="sidebar_heading" onClick={() => handleClick(0)}>
                             <img src={SOSIcon} alt="profile" />
                             <h3> Yebo Safe</h3>
                             {yebosafearrow[0]?
@@ -145,14 +148,17 @@ function CustomToggle({ children, eventKey }) {
                     </Card.Body>
                 </Accordion.Collapse>
                 </Card>
-                <Card>
+                <Card style={{
+                    background: "transparent",
+                    border: "none"
+                }}>
                 <Card.Header
                      style={{ 
                         padding: "0px",
                         border: "none"
                     }}>
                     <CustomToggle eventKey="1">
-                    <div className="sidebar_heading" value={"1"} onClick={handleClick}>
+                    <div className="sidebar_heading"  onClick={() => handleClick(1)}>
                             <img src={SOSIcon} alt="profile" />
                             <h3> Yebo Safe</h3>
                             {yebosafearrow[1]?
@@ -165,14 +171,17 @@ function CustomToggle({ children, eventKey }) {
                     <Card.Body>Hello! I'm another body</Card.Body>
                 </Accordion.Collapse>
                 </Card>
-                <Card>
+                <Card style={{
+                    background: "transparent",
+                    border: "none"
+                }}>
                 <Card.Header
                  style={{ 
                     padding: "0px",
                     border: "none"
                 }}>
                     <CustomToggle eventKey="2">
-                    <div className="sidebar_heading" value={"2"} onClick={handleClick}>
+                    <div className="sidebar_heading" onClick={() => handleClick(2)}>
                             <img src={SOSIcon} alt="profile" />
                             <h3> Yebo Safe</h3>
                             {yebosafearrow[2]?

@@ -1,0 +1,87 @@
+.Pending_ticket_section {
+  width: -webkit-fill-available;
+  height: 100vh;
+  .ticket_details {
+    padding: 30px 84px;
+    width: 80rem;
+    background-color: #fff;
+    margin-top: 50px;
+    border-radius: 25px;
+    .heading {
+      font-size: 30px;
+      line-height: 47px;
+      color: #66276e;
+      font-family: "Saira-SemiBold";
+      margin-bottom: 30px;
+    }
+    h5 {
+      line-height: 47px;
+      color: #66276e;
+      margin-bottom: 30px;
+    }
+    .ticket_grid {
+      display: flex;
+      align-items: baseline;
+      // gap: 30px;
+      p {
+        width: 8rem;
+        font-size: 14px;
+        line-height: 119.4%;
+        color: #66276e;
+      }
+    }
+    .addagency-btns {
+      display: flex;
+      justify-content: end;
+      align-items: center;
+      gap: 10px;
+    }
+    .date_picker {
+      display: flex;
+      align-items: center;
+      input {
+        outline: none;
+        background: #f2f2f2;
+        border-radius: 6px;
+        border: unset;
+        width: 167px;
+        height: 40px;
+        padding: 10px;
+        color: #66276e;
+      }
+      input[type="date"]::-webkit-inner-spin-button,
+      input[type="date"]::-webkit-calendar-picker-indicator {
+        opacity: 0;
+        padding-left: 0px;
+        -webkit-appearance: none;
+      }
+      span {
+        font-size: 14px;
+        line-height: 19px;
+        color: #121214;
+        padding: 0px 10px;
+      }
+    }
+  }
+}
+// =================================================== Media Queries =============================================
+@media (max-width: 768px) {
+  .ticket_details {
+    padding: 10px;
+    width: auto;
+    .ticket_grid {
+      display: flex;
+      align-items: baseline;
+      /* text-align: center; */
+      /* justify-content: space-around; */
+      margin-left: 66px;
+    }
+    .addagency-btns {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      grid-gap: 10px;
+      gap: 10px;
+    }
+  }
+}

@@ -7,9 +7,11 @@ const RouteStrings = {
     organizations: '/yebo/dashboard',
     manageusers: '/dashboard/yeboSave/ManageUser',
     manageagencies: '/dashboard/yeboSave/ManageGurdAgencies',
+    manageGuards: '/dashboard/yeboSave/ManageGurds',
+    feedbacks: '/dashboard/yeboSave/Feedbacks',
+
     guardagencies: '/yebo/dashboard/guardagencies',
-    manageguards: '/yebo/dashboard/manageguards',
-    feedbacks: '/yebo/dashboard/feedbacks',
+    
     closedfeedbacks: '/yebo/dashboard/closedfeedbacks',
     appreciationfeedback: '/yebo/dashboard/appreciationfeedback',
     employeedetails: '/yebo/dashboard/employeedetails',

@@ -1,43 +1,69 @@
-import React from "react";
-// import DatePicker from "react-datepicker";
-// import "react-datepicker/dist/react-datepicker.css";
+import React, {useEffect, useState} from "react";
+import { useSelector, useDispatch } from "react-redux";
+import SelectDatePicker from "../../../../Components/SelectDatePicker/SelectDatePicker";
 import Button from "../../../../Components/GlobalComponents/Buttons/Button";
-// import DateIcon from "../../../../Assets/Icons/Date_icon.png";
+import GoogleMap from "../../../../Components/GoogleMap/Map"
+import { fetchGuardAgencies } from "../../../../redux/actions/guardAgenciesAction";
+import { showLoader, hideLoader } from "../../../../redux/actions/loaderAction";
 import "./AddGuards.scss";
+
 const AddGuards = () => {
-    // const [startDate, setStartDate] = useState(new Date());
+    const guardAgencyData  = useSelector(state => state.guardAgencies.guardAgencies);
+    const dispatch = useDispatch()
+    const [startDate, setStartDate] = useState(new Date());
+    const [addGuardData, setAddGuardData] = useState({});
+    const handleChange = (event) => {
+        setAddGuardData({
+            ...addGuardData,
+            [event.target.name]: event.target.value
+        })
+    }
+
+    useEffect(async ()=>{
+        if(guardAgencyData.length === 0){
+            dispatch(showLoader());
+            await dispatch(fetchGuardAgencies());
+            dispatch(hideLoader());
+        }
+            
+    },[])
+
     return (
         <>
-            <div className="add_guard_section container">
+            <div className="add_guard_section">
                 <h1 className="heading">Add Guards</h1>
-                <div className="row">
-                    <div className="col-md-6">
-                        <div className="guard_grid my-3">
-                            <p>Guard Name</p>
-                            <input type="text" style={{ height: 35 }} />
+                <div className="gardRow">
+                    <div className="addGuard_Container">
+                        <div className="guardData">
+                            <p className="guardDatainfo">Name</p>
+                            <input type="text" name="guardFullName" onChange={handleChange}  />
                         </div>
-                        <div className="guard_grid my-3" >
-                            <p>Mobile no.</p>
-                            <input type="text" style={{ height: 35 }} />
+                        <div className="guardData">
+                            <p className="guardDatainfo">Agency</p>
+                            <select name="idOrganisation" onClick={handleChange}>
+                            {guardAgencyData.map((agency)=>
+                                <option value={agency.idGuardAgency}>{agency.guardAgencyName}</option>
+                            )}
+                            </select>
                         </div>
-                        <div className="guard_grid my-3">
-                            <p>Address</p>
-                            <textarea
-                                name="Note"
-                                aria-describedby="helpId"
-                                cols="30"
-                                rows="2">
-                            </textarea>
+                        <div className="guardData" >
+                            <p className="guardDatainfo">Phone number</p>
+                            <input type="text" name="mobileNo" onClick={handleChange} />
                         </div>
-
-                        {/* <div className="guard_grid my-4">
-                            <p>Guard ID</p>
+                        <div className="guardData" >
+                            <p className="guardDatainfo">Email</p>
+                            <input name="emailId" type="email" onClick={handleChange} />
+                        </div>
+                        <div className="guardData" >
+                            <p className="guardDatainfo">Latitude</p>
                             <input type="text" />
-                        </div> */}
-                    </div>
-                    <div className="col-md-5 offset-md-1">
+                        </div>
+                        <div className="guardData" >
+                            <p className="guardDatainfo">Longitude</p>
+                            <input type="text" />
+                        </div>
                         <div className="guard_grid my-3">
-                            <span>Remarks</span>
+                            <p className="guardDatainfo">Address</p>
                             <textarea
                                 name="Note"
                                 aria-describedby="helpId"
@@ -45,61 +71,50 @@ const AddGuards = () => {
                                 rows="2">
                             </textarea>
                         </div>
-                        <div className="guard_grid my-3">
-                            <span>Email</span>
-                            <input type="email" style={{ height: 35 }} />
-                        </div>
+                    </div>
+                    <div className="addGuard_Container">
+                        <GoogleMap />
                     </div>
                 </div>
 
                 <div className="verification_details">
                     <h3 className="sub_heading my-4">Verification Details </h3>
-                    <div className="row">
-                        <div className="col-md-6">
-                            {/* <div className="guard_grid my-3">
-                                <p>Police verification date</p>
-                                <form action="/action_page.php" className="date__picker">
-                                    <input type="date" id="birthday" name="birthday" style={{ height: 35 }} />
-                                </form>
+                    <div className="gardRow">
+                        <div className="addGuard_Container">
+                            <div className="guardData">
+                                <p className="guardDatainfo">Police verification date</p>
+                                <SelectDatePicker />
                             </div>
-                            <div className="guard_grid my-3">
-                                <p>Background verification date</p>
-                                <form action="/action_page.php" className="date__picker">
-                                    <input type="date" id="birthday" name="birthday" style={{ height: 35 }} />
-                                </form>
-                            </div> */}
-                            <div className="col-md-6">
+                            <div className="guardData">
+                                <p className="guardDatainfo">Background verification date</p>
+                                <SelectDatePicker />
                             </div>
-                            <div className="guard_grid my-3">
-                                <form>
-                                    <div className="form-group my-3">
+                         
+                            <div className="guardData">
+                              
+                          
                                         <p>PVC document</p>
                                         <input type="file" className="form-control-file" id="exampleFormControlFile1" />
-                                    </div>
-                                </form>
+                                
+                            
                             </div>
                         </div>
-                        <div className="col-md-5 offset-md-1">
-                            {/* <div className="guard_grid my-3">
-                                <p>Police verification Exp date</p>
-                                <form action="/action_page.php" className="date__picker">
-                                    <input type="date" id="birthday" name="birthday" style={{ height: 35 }} />
-                                </form>
+                        <div className="addGuard_Container">
+                            <div className="guardData">
+                                <p className="guardDatainfo">Police verification Exp date</p>
+                                <SelectDatePicker />
                             </div>
-                            <div className="guard_grid my-3">
-                                <p>Background verification
-                                    Exp date</p>
-                                <form action="/action_page.php" className="date__picker">
-                                    <input type="date" id="birthday" name="birthday" style={{ height: 35 }} />
-                                </form>
-                            </div> */}
-                            <div className="guard_grid my-3">
-                                <form>
-                                    <div className="form-group">
+                            <div className="guardData">
+                                <p className="guardDatainfo">Background verificationExp date</p>
+                                <SelectDatePicker />
+                            </div>
+                            <div className="guardData">
+                                
+                       
                                         <p>BCV document</p>
                                         <input type="file" className="form-control-file" id="exampleFormControlFile1" />
-                                    </div>
-                                </form>
+                          
+                            
                             </div>
                         </div>
                     </div>

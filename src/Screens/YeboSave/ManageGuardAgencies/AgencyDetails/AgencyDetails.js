@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { useDispatch } from 'react-redux';
 import "./AgencyDetails.scss";
 import EditIcon from "../../../../Assets/Icons/Edit_Icon.png";
 import Button from "../../../../Components/GlobalComponents/Buttons/Button";
-import GoogleMap from "../../../../Components/GoogleMap/Map"
+import GoogleMap from "../../../../Components/GoogleMap/Map";
 import { editGuardAgency } from '../../../../redux/actions/guardAgenciesAction';
+import { showLoader, hideLoader } from '../../../../redux/actions/loaderAction';
 
 const AgencyDetails = ({
     agencyDetailsData = {},
@@ -13,10 +14,6 @@ const AgencyDetails = ({
     const dispatch = useDispatch();
     const [editAgencyDetails, setEditAgencyDetails] = useState(false);
     const [AgencyData, setAgencyData] = useState(agencyDetailsData);
-
-    useEffect(()=>{
-        console.log(AgencyData)
-    },[AgencyData])
 
     const handleChange = (event) => {
         setAgencyData({
@@ -32,11 +29,18 @@ const AgencyDetails = ({
             guardAgencyAddress: pos
         })
     }
+
+    const handleEditAgency = async() => {
+        dispatch(showLoader());
+        await dispatch(editGuardAgency(AgencyData));
+        setAgencyDetailsPopup(false);
+        dispatch(hideLoader())
+    }
     return (
         <>
             <div className="edit_agency_section">
                 <div className="main_headingGuardAgency">
-                    <h1 className="heading">Edit Fleet Agency Details</h1>
+                    <h1 className="heading">{!editAgencyDetails ? "Agencies Details" : "Edit Agencies"}</h1>
                     {!editAgencyDetails && <div className="edit_icon" onClick={() => {
                         setEditAgencyDetails(true);
                     }} >
@@ -155,42 +159,18 @@ const AgencyDetails = ({
                                     {/* } */}
                         </div>
                         <GoogleMap 
-                            lat={parseInt(AgencyData.guardAgencyLocation.split(",")[0])} 
-                            lng= {parseInt(AgencyData.guardAgencyLocation.split(",")[1])}
+                            lat={parseFloat(AgencyData.guardAgencyLocation.split(",")[0])} 
+                            lng= {parseFloat(AgencyData.guardAgencyLocation.split(",")[1])}
                             editDetails={editAgencyDetails}
                             locationAddresh={AgencyData.guardAgencyAddress}
                             getLatLng = {getLatLng}
                         />
                     </div>
                 </div>
-                {/* <div className="banking_details">
-                    <h3 className="sub_heading my-3">Banking Details</h3>
-                    <div className="row">
-                        <div className="col-md-6">
-                            <div className="agency_grid my-2">
-                                <p>Bank Name</p>
-                                <input type="text" style={{ height: 40 }} />
-                            </div>
-                            <div className="agency_grid my-2">
-                                <p>IFSC code</p>
-                                <input type="text" style={{ height: 40 }} />
-                            </div>
-
-                        </div>
-                        <div className="col-md-5 offset-1">
-                            <div className="agency_grid my-2">
-                                <span>Acc No.</span>
-                                <input type="text" style={{ height: 40 }} />
-                            </div>
-                        </div>
-                    </div>
-                </div> */}
                 <div className="addagency-btns">
-                    <Button title='Save' OnClick={() => {
-                        dispatch(editGuardAgency(AgencyData));
-                        setAgencyDetailsPopup(false)
-                    }} />
-                    <Button title='Cancel' />
+
+                    {editAgencyDetails && <Button type={"button"} title='Save' OnClick={handleEditAgency} />}
+                    <Button type={"button"} title='Cancel' OnClick= {() => setAgencyDetailsPopup(false)} />
                 </div>
             </div>
         </>

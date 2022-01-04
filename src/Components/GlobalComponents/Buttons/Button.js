@@ -4,7 +4,7 @@ const Button = ({ title ,OnClick,Type}) => {
     return (
         <>
             <div className="btn-wrapper">
-                <button type={Type}  className="btn" onClick={OnClick} role="button" type="submit" name="submit" >{title}</button>
+                <button type={Type}  className="btn" onClick={OnClick} title={title} >{title}</button>
             </div>
         </>
     )

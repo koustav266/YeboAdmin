@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import "./EditGuardPopup.scss";
 import EditIcon from "../../../../Assets/Icons/Edit_Icon.png";
 import Button from "../../../../Components/GlobalComponents/Buttons/Button";
+import GoogleMap from "../../../../Components/GoogleMap/Map"
 const EditGuardPopup = (props) => {
     // const [employData, setEmployData] = useState(props.employDetails)
     // const handleChange = (event) => {
@@ -47,7 +48,7 @@ const EditGuardPopup = (props) => {
     }
     return (
         <>
-            <div className="edit_guard_section container">
+            <div className="edit_guard_section">
                 <div className="main_heading">
                     <h1 className="heading">Guard Details</h1>
                     {!editDriverDetails && <div className="edit_icon" onClick={() => {
@@ -58,69 +59,56 @@ const EditGuardPopup = (props) => {
                     </div>}
                 </div>
 
-                <div className="row">
-                    <div className="col-md-6">
-                        <div className="guard_grid my-3">
+                <div className="grid-EditGuard">
+                    <div className="editGuardRow">
+                        <div className="editDataContainer">
                             <p>Guard Name</p>
                             {editDriverDetails ?
                                 <input type='text' onChange={handleChange} name='guard_name' value={DriverData.GuardName} style={{ height: 35 }} /> :
                                 <p>{DriverData.GuardName}</p>}
                         </div>
-                        <div className="guard_grid my-3">
-                            <p>Mobile no.</p>
+                        <div className="editDataContainer">
+                            <p>Agency Name*</p>
                             {editDriverDetails ?
                                 <input type='text' onChange={handleChange} name='mobile_no' value={DriverData.MobileNo} style={{ height: 35 }} /> :
                                 <p>{DriverData.MobileNo}</p>}
                         </div>
-                        <div className="guard_grid my-3">
-                            <p>Address</p>
+                        <div className="editDataContainer">
+                            <p>Phone number*</p>
                             {editDriverDetails ?
-                                <textarea
-                                    name='address'
-                                    value={DriverData.Address}
-                                    onChange={handleChange}
-                                    aria-describedby="helpId"
-                                    cols="30"
-                                    rows="2">
-                                </textarea> :
-                                <p>{DriverData.Address}</p>}
+                                <input type='text' onChange={handleChange} name='mobile_no' value={DriverData.MobileNo} style={{ height: 35 }} /> :
+                                <p>{DriverData.MobileNo}</p>}
                         </div>
-                        {/* <div className="guard_grid my-3">
-                            <p>Guard ID</p>
-                            <input type="text" />
-                        </div> */}
+                        <div className="editDataContainer">
+                            <p>Email*</p>
+                            {editDriverDetails ?
+                                <input type='text' onChange={handleChange} name='mobile_no' value={DriverData.MobileNo} style={{ height: 35 }} /> :
+                                <p>{DriverData.MobileNo}</p>}
+                        </div>
+                        <div className="editDataContainer">
+                            <p>Latitude</p>
+                            {editDriverDetails ?
+                                <input type='text' onChange={handleChange} name='mobile_no' value={DriverData.MobileNo} style={{ height: 35 }} /> :
+                                <p>{DriverData.MobileNo}</p>}
+                        </div>
+                        <div className="editDataContainer">
+                            <p>Longitude</p>
+                            {editDriverDetails ?
+                                <input type='text' onChange={handleChange} name='mobile_no' value={DriverData.MobileNo} style={{ height: 35 }} /> :
+                                <p>{DriverData.MobileNo}</p>}
+                        </div>
                     </div>
-                    <div className="col-md-5 offset-md-1">
-                        <div className="guard_grid my-3">
-                            <span>Remarks</span>
-                            {editDriverDetails ?
-                                <textarea
-                                    name='remarks'
-                                    value={DriverData.Remarks}
-                                    onChange={handleChange}
-                                    aria-describedby="helpId"
-                                    cols="30"
-                                    rows="2">
-                                </textarea> :
-                                <p>{DriverData.Remarks}</p>}
-                        </div>
-                        <div className="guard_grid my-3">
-                            <span>Email</span>
-                            {editDriverDetails ?
-                                <input type='email' onChange={handleChange} name='email' value={DriverData.Email} style={{ height: 35 }} /> :
-                                <p>{DriverData.Email}</p>}
-                        </div>
-
+                    <div className="editGuardRow">
+                        <GoogleMap />
                     </div>
                 </div>
 
                 <div className="verification_details">
-                    <h3 className="sub_heading my-3">Verification Details </h3>
-                    <div className="row">
-                        <div className="col-md-6">
-                            <div className="guard_grid my-3">
-                                <p>Police
-                                    verification date</p>
+                    <h3 className="sub_heading">Verification Details </h3>
+                    <div className="grid-EditGuard">
+                        <div className="editGuardRow">
+                            <div className="editDataContainer">
+                                <p>Police verification date</p>
                                 {editDriverDetails ?
                                     <form action="/action_page.php" onChange={handleChange} className="date__picker">
                                         <input type="date" id="birthday" name='email' value={DriverData.PoliceVerificationDate} style={{ height: 35 }} />
@@ -128,7 +116,7 @@ const EditGuardPopup = (props) => {
                                     <p>{DriverData.PoliceVerificationDate}</p>}
 
                             </div>
-                            <div className="guard_grid my-3">
+                            <div className="editDataContainer">
                                 <p>Background verification date</p>
                                 {editDriverDetails ?
                                     <form action="/action_page.php" onChange={handleChange} className="date__picker">
@@ -136,9 +124,7 @@ const EditGuardPopup = (props) => {
                                     </form> :
                                     <p>{DriverData.PoliceVerificationExpDate}</p>}
                             </div>
-                            <div className="col-md-6">
-                            </div>
-                            <div className="guard_grid my-3">
+                            <div className="editDataContainer">
                                 <form>
                                     <div className="form-group my-3">
                                         <p>PVC document</p>
@@ -147,8 +133,8 @@ const EditGuardPopup = (props) => {
                                 </form>
                             </div>
                         </div>
-                        <div className="col-md-5 offset-md-1">
-                            <div className="guard_grid my-3">
+                        <div className="editGuardRow">
+                            <div className="editDataContainer">
                                 <p>Police verification Exp date</p>
                                 {editDriverDetails ?
                                     <form action="/action_page.php" onChange={handleChange} className="date__picker">
@@ -156,7 +142,7 @@ const EditGuardPopup = (props) => {
                                     </form> :
                                     <p>{DriverData.BackgroundVerificationDate}</p>}
                             </div>
-                            <div className="guard_grid my-3">
+                            <div className="editDataContainer">
                                 <p>Background verification
                                     Exp date</p>
                                 {editDriverDetails ?
@@ -165,7 +151,7 @@ const EditGuardPopup = (props) => {
                                     </form> :
                                     <p>{DriverData.BackgroundVerificationExpDate}</p>}
                             </div>
-                            <div className="guard_grid my-3">
+                            <div className="editDataContainer">
                                 <form>
                                     <div className="form-group">
                                         <p>BCV document</p>

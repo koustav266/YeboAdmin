@@ -4,6 +4,7 @@ import "./AddAgencies.scss";
 import Button from "../../../../Components/GlobalComponents/Buttons/Button";
 import GoogleMap from '../../../../Components/GoogleMap/Map';
 import { addGuardAgency } from '../../../../redux/actions/guardAgenciesAction';
+import { showLoader, hideLoader } from '../../../../redux/actions/loaderAction';
 
 const AddAgencies = ({
     setAddAgencyPopup = ()=>{}
@@ -11,9 +12,6 @@ const AddAgencies = ({
     const [guardAgenciesData, setguardAgenciesData] = useState({});
     const [error, setError] = useState(false);
     const dispatch = useDispatch();
-    useEffect(()=>{
-        console.log(guardAgenciesData)
-    },[guardAgenciesData])
     const handleChange = (event) => {
         setguardAgenciesData({
             ...guardAgenciesData,
@@ -28,7 +26,7 @@ const AddAgencies = ({
         })
     }
 
-    const handleSubmit = () => {
+    const handleSubmit = async () => {
         if(
             guardAgenciesData.guardAgencyName &&
             guardAgenciesData.guardAgencyName!== ""&&
@@ -42,19 +40,21 @@ const AddAgencies = ({
             guardAgenciesData.description !== "" &&
             guardAgenciesData.guardAgencyLocation 
         ){
-            dispatch(addGuardAgency(guardAgenciesData))
+            dispatch(showLoader())
+            await dispatch(addGuardAgency(guardAgenciesData))
             setAddAgencyPopup(false)
+            dispatch(hideLoader());
         }else{
             setError(true);
         }
     }
     return (
         <>
-            <div className="add_agency_section container">
+            <div className="add_agency_section">
                 <h1 className="heading">Add Agency</h1>
-                <div className="row">
-                    <div className="col-md-6">
-                        <div className="agency_grid">
+                <div className="gardRow">
+                    <div className="addGuard_Container">
+                        <div className="guardData">
                             <p>Agency Name<span className="text-danger">*</span></p>
                             <input type="text" name="guardAgencyName"  onChange={handleChange}/>
                         </div>
@@ -63,7 +63,7 @@ const AddAgencies = ({
                             guardAgenciesData.guardAgencyName === undefined) && 
                             <p className='errorMessage'>required</p>} 
                         
-                        <div className="agency_grid">
+                        <div className="guardData">
                             <p>Guard Agency Code<span className="text-danger">*</span></p>
                             <input type="text" name="guardAgencyCode"  onChange={handleChange}/>
                         </div>
@@ -72,7 +72,7 @@ const AddAgencies = ({
                             guardAgenciesData.guardAgencyCode === undefined) && 
                             <p className='errorMessage'>required</p>} 
                         
-                        <div className="agency_grid">
+                        <div className="guardData">
                             <p>Contact Name<span className="text-danger">*</span></p>
                             <input type="text" name="contactName" onChange={handleChange}/>
                         </div>
@@ -80,7 +80,7 @@ const AddAgencies = ({
                             (guardAgenciesData.contactName === "" ||
                             guardAgenciesData.contactName === undefined) && 
                             <p className='errorMessage'>required</p>}
-                        <div className="agency_grid">
+                        <div className="guardData">
                             <p>Mobile no<span className="text-danger">*</span></p>
                             <input type="number"  name='mobileNo' onChange={handleChange} maxlength="10"/>
                         </div>
@@ -88,7 +88,7 @@ const AddAgencies = ({
                             (guardAgenciesData.mobileNo === "" ||
                             guardAgenciesData.mobileNo === undefined) && 
                             <p className='errorMessage'>required</p>}
-                        <div className="agency_grid">
+                        <div className="guardData">
                             <p>Email<span className="text-danger">*</span></p>
                             <input type="email" name="emailId" onChange={handleChange}/>
                         </div>
@@ -96,7 +96,7 @@ const AddAgencies = ({
                             (guardAgenciesData.emailId === "" ||
                             guardAgenciesData.emailId === undefined) && 
                             <p className='errorMessage'>required</p>}
-                        <div className="agency_grid">
+                        <div className="guardData">
                             <p>Descipration</p>
                             <textarea
                                 name="description"
@@ -106,7 +106,7 @@ const AddAgencies = ({
                                 rows="3">
                             </textarea>
                         </div>
-                        <div className="agency_grid">
+                        <div className="guardData">
                             
                                 <div className="form-group">
                                     <p style={{ width: ' 60%' }}>Upload document/ images</p>
@@ -115,14 +115,14 @@ const AddAgencies = ({
                          
                         </div>
                     </div>
-                    <div className="col-md-6">
-                        <div className="agency_grid">
+                    <div className="addGuard_Container">
+                        <div className="guardData">
                             <p>Latitude</p>
                             <input type="text" readOnly value={
                                 guardAgenciesData.guardAgencyLocation ? 
                                 guardAgenciesData.guardAgencyLocation.split(",")[0] : ""} />
                         </div>
-                        <div className="agency_grid">
+                        <div className="guardData">
                             <p>Longitude</p>
                             <input type="text" readOnly value={
                                 guardAgenciesData.guardAgencyLocation ? 

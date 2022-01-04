@@ -4,6 +4,7 @@ import "./ManageUser.scss";
 import ReactTable from "../../../Components/ReactTable/ReactTable";
 import SuperAdminProfile from "../../../Components/SuperAdminProfile/SuperAdminProfile";
 import { fetchUsers } from '../../../redux/actions/userAction';
+import { showLoader, hideLoader } from '../../../redux/actions/loaderAction';
 import SearchBox from "../../../Components/SerachBox/SearchBox"
 
 const ManageUser = () => {
@@ -11,9 +12,11 @@ const ManageUser = () => {
     const dispatch = useDispatch();
     const [data, setData] = useState([]);
 
-    useEffect(() => {
+    useEffect(async() => {
         if(users && users.length === 0){
-            dispatch(fetchUsers())
+            dispatch(showLoader());
+            await dispatch(fetchUsers());
+            dispatch(hideLoader())
         }
     },[]);
 

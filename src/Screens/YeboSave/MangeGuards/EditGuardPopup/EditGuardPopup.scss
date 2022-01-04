@@ -1,6 +1,6 @@
 .edit_guard_section {
   padding: 30px;
-  width: 75rem;
+  width: 56rem;
   .main_heading {
     display: flex;
     justify-content: flex-start;
@@ -21,33 +21,49 @@
       margin-bottom: 26px;
     }
   }
+  .grid-EditGuard{
+    display: grid;
+    grid-template-columns: 25rem 25rem;
+    column-gap: 1rem;
+    .editGuardRow{
+      .editDataContainer{
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        margin-bottom: 1.5rem;
+        gap: 1rem;
+        p {
+          font-size: 14px;
+          line-height: 19px;
+          color: #66276e;
+          width: 11rem;
+          margin-bottom: 0px;
+        }
+        span {
+          font-size: 14px;
+          line-height: 28px;
+          color: #66276e;
+          width: 8rem;
+        }
+        input,
+        textarea {
+          outline: none;
+          background: #f2f2f2;
+          border-radius: 6px;
+          border: unset;
+          width: 100%;
+          padding: 10px;
+        }
+      }
+    }
+  }
+  
 
   .guard_grid {
     display: flex;
     align-items: baseline;
     gap: 10px;
-    p {
-      font-size: 14px;
-      line-height: 19px;
-      color: #66276e;
-      width: 11rem;
-      margin-bottom: 0px;
-    }
-    span {
-      font-size: 14px;
-      line-height: 28px;
-      color: #66276e;
-      width: 8rem;
-    }
-    input,
-    textarea {
-      outline: none;
-      background: #f2f2f2;
-      border-radius: 6px;
-      border: unset;
-      width: 100%;
-      padding: 10px;
-    }
+   
     .form-group {
       display: flex;
       align-items: baseline;
@@ -77,7 +93,7 @@
     color: rgba(255, 255, 255, 0);
     opacity: 1;
     display: block;
-    background: url(../../../Assets/Icons/Date_icon.png) no-repeat;
+    background: url(../../../../Assets/Icons/Date_icon.png) no-repeat;
     width: 20px;
     height: 20px;
     border-width: thin;
@@ -89,6 +105,8 @@
       font-family: "Saira-Medium";
       line-height: 35px;
       color: #66276e;
+      justify-content: flex-start;
+      margin-bottom: 2rem;
     }
     .date__picker {
       width: 100%;
