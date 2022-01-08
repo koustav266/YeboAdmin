@@ -15,6 +15,7 @@ import SearchBox from '../../../Components/SerachBox/SearchBox';
 import { fetchGuardAgencies } from '../../../redux/actions/guardAgenciesAction';
 import { showLoader, hideLoader } from '../../../redux/actions/loaderAction';
 // import DeleteUserPopup from "./DeleteUserPopup/DeleteUserPopup";
+import { deleteGuardAgencyAction, activeGuardAgencyAction } from '../../../redux/actions/guardAgenciesAction';
 
 
 const ManageGurdAgencies = () => {
@@ -39,15 +40,15 @@ const ManageGurdAgencies = () => {
         setData(guardAgencyData)
     },[guardAgencyData])
 
-    const handleSelectOrg = (event) => {
-        const { value } = event.target
-        console.log("selected valued", event.target.value);
-        if (value !== '') {
-            setshowNoData(false)
-        } else {
-            setshowNoData(true)
-        }
+    const deleteAdency = async (status, guardDetails) => {
+        dispatch(showLoader())
+        if(status === 1)
+            await dispatch(activeGuardAgencyAction(guardDetails.idGuardAgency))
+        else
+            await dispatch(deleteGuardAgencyAction(guardDetails.idGuardAgency))
+        dispatch(hideLoader())
     }
+
 
     const columns = [
         {
@@ -122,11 +123,15 @@ const ManageGurdAgencies = () => {
         },
         {
             Header: 'Status',
-            accessor: 'Status',
-            Cell: ({ cell: { value } }) => (
-                <div className="slider_checkbox">
-                    <label className="switch">
-                        <input type='checkbox' />
+            accessor: 'activeStatus',
+            Cell: ({ row, cell: { value } }) => (
+                <div className="slider_checkbox" >
+                    <label className="switch" >
+                        <input 
+                            type='checkbox'
+                            checked={value === 18} 
+                            onClick={() => deleteAdency(value, row.original)}
+                        />
                         <span className="slider" />
                         <p className="off">OFF</p>
                         <p className="on">ON</p>

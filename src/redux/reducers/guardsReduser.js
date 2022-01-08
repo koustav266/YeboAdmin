@@ -10,21 +10,43 @@ export const guardsReduser = (state = initialState, {type, payload}) => {
             if(payload)
                 return {...state, guards: payload}
             return state
-        // case ActionTypes.ADD_GUARD_AGENCIES:
-        //     if(payload)
-        //         return {...state, guardAgencies: [...state.guardAgencies, payload]}
-        //     return state;
-        // case ActionTypes.EDIT_GUARD_AGENCIES:
-        //     if(payload){
-        //         let agency = state.guardAgencies.map(product => {
-        //             if (product.idGuardAgency === payload.idGuardAgency) {
-        //                 return payload
-        //             };
-        //             return product;
-        //         });
-        //         return {...state, guardAgencies: agency}
-        //     }
-        //     return state;
+        case ActionTypes.ADD_GUARD:
+            if(payload)
+                return {...state, guards: [...state.guards, payload]}
+            return state;
+        case ActionTypes.EDIT_GUARD:
+            if(payload){
+                let agency = state.guards.map(product => {
+                    if (product.idGuard === payload.idGuard) {
+                        return payload
+                    };
+                    return product;
+                });
+                return {...state, guards: agency}
+            }
+            return state;
+        case ActionTypes.DELETE_GUARD:
+            if(payload){
+                let agency = state.guards.map(product => {
+                    if (product.idGuard === payload) {
+                        return {...product, activeStatus: 1}
+                    };
+                    return product;
+                });
+                return {...state, guards: agency}
+            }
+            return state;
+        case ActionTypes.ACTIVE_GUARD:
+        if(payload){
+            let agency = state.guards.map(product => {
+                if (product.idGuard === payload) {
+                    return {...product, activeStatus: 18}
+                };
+                return product;
+            });
+            return {...state, guards: agency}
+        }
+        return state;
         default: 
             return state;
     }

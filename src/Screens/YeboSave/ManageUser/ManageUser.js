@@ -57,15 +57,16 @@ const ManageUser = () => {
                     {value}
                 </div>
             ),
-        },{
-            Header: 'Distance(KM)',
-            accessor: 'Distance',
-            Cell: ({ row, cell: { value } }) => (
-                <div>
-                    {value}
-                </div>
-            ),
         },
+        // {
+        //     Header: 'Distance(KM)',
+        //     accessor: 'Distance',
+        //     Cell: ({ row, cell: { value } }) => (
+        //         <div>
+        //             {value}
+        //         </div>
+        //     ),
+        // },
     ]
 
     return (

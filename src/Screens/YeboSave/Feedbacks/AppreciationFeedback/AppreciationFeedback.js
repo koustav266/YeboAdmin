@@ -1,15 +1,19 @@
 import React, { useState } from 'react'
 import "./AppreciationFeedback.scss";
 import ReactTable from "../../../../Components/ReactTable/ReactTable";
+import EditAppreciationFeedback from './EditAppreciationFeedback/EditAppreciationFeedback';
+import Popup from '../../../../Components/Popup/Popup';
 // import ClosedFeedbacks from "./ClosedFeedback/ClosedFeedbacks";
 import { Rating } from 'react-simple-star-rating'
-import { Link } from 'react-router-dom';
+import SearchBox from "../../../../Components/SerachBox/SearchBox"
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+
 const AppreciationFeedback = () => {
     const [startDate, setStartDate] = useState(new Date());
     const [toDate, setToDate] = useState(new Date());
     const [rating, setRating] = useState(0) // initial rating value
+    const [editAppreciationPopup, setEditAppreciationPopup] = useState(false);
     // Catch Rating value
     const handleRating = (rate) => {
         setRating(rate)
@@ -102,7 +106,14 @@ const AppreciationFeedback = () => {
     const columns = [
         {
             Header: 'Date',
-            accessor: 'Date'
+            accessor: 'Date',
+            Cell: ({ row, cell: { value } }) => (
+                <div className="edit_btn" onClick={() => {
+                    setEditAppreciationPopup(true);
+                }}>
+                    {value}
+                </div>
+            )
         },
         {
             Header: 'Employee',
@@ -157,65 +168,26 @@ const AppreciationFeedback = () => {
     }
     return (
         <>
-            <div className="apprecition_feedback">
-                <div className="d-flex">
-                    {/* <Sidebar /> */}
-                    <div className="apprecition_feedback_div container py-5">
-                        <div className="main_heading">
-                            <h1>Feedbacks</h1>
-                            <div className="date_picker">
-                                <span>Date</span>
-                                {/* <form action="/action_page.php">
-                                    <input type="date" id="birthday" name="birthday" />
-                                </form> */}
-                                <DatePicker selected={startDate} onChange={(date) => setStartDate(date)} dateFormat="dd/MM/yyyy" />
-                                <span>To</span>
-                                {/* <form action="/action_page.php">
-                                    <input type="date" id="birthday" name="birthday" />
-                                </form> */}
-                                <DatePicker selected={toDate} onChange={(date) => setToDate(date)} dateFormat="dd/MM/yyyy" />
-                            </div>
-                        </div>
-                        <div className="sub_heading my-4">
-                            <div className="feedback_tabs">
-                                <Link to={'/dashboard/feedbacks'} className="pending_feedback">Pending</Link>
-                                <Link to={'/dashboard/closedfeedbacks'} className="closed_feedback">Closed</Link>
-                                <Link to={'/dashboard/appreciationfeedback'} className="appreciation_feedback">Appreciation</Link>
-                                {/* <h3 className="pending_feedback">Pending</h3>
-                                <h3>Closed</h3>
-                                <h3>Appreciation</h3> */}
-                            </div>
-
-                            <div className="date_search">
-                                <div className="select_office">
-                                    <span>Organization</span>
-                                    <select name="cars" id="cars">
-                                        <option value=""></option>
-                                        <option value="saab">All</option>
-                                        <option value="opel">Branch 1</option>
-                                        <option value="audi">Branch 2</option>
-                                    </select>
-                                </div>
-
-                                <div className="search_bar">
-                                    <span>Search</span>
-                                    <input onChange={handleSearchElements} value={searchfilter} />
-                                </div>
-                                {/* <Searchbar / >  */}
-                                {/* <div className="date_picker">
+            <div className="manage_agency_table">
+                <div className="datePicker-searchbar">
+                
+                    <div className="date_picker">
                                     <span>Date</span>
-                                    <form action="/action_page.php">
-                                        <input type="date" id="birthday" name="birthday" />
-                                    </form>
-                                </div> */}
-                            </div>
-                        </div>
-                        <div className="manage_agency_table">
-                            <ReactTable columns={columns} data={FormData} />
-                        </div>
+                                    <DatePicker selected={startDate} onChange={(date) => setStartDate(date)} dateFormat="dd/MM/yyyy" />
+                                    <span>To</span>
+                        <DatePicker selected={toDate} onChange={(date) => setToDate(date)} dateFormat="dd/MM/yyyy" />
+                    </div> 
+                    <div className="search_bar">
+                        <span>Search</span>
+                            <SearchBox />
                     </div>
                 </div>
+                <ReactTable columns={columns} data={FormData} />
+                <Popup trigger={editAppreciationPopup} setTrigger={setEditAppreciationPopup}>
+                    <EditAppreciationFeedback />
+                </Popup>
             </div>
+            
         </>
     )
 }

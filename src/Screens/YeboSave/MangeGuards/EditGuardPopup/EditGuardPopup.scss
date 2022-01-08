@@ -1,7 +1,7 @@
 .edit_guard_section {
   padding: 30px;
   width: 56rem;
-  .main_heading {
+  .main_heading-EditGuard {
     display: flex;
     justify-content: flex-start;
     align-items: baseline;
@@ -46,7 +46,8 @@
           width: 8rem;
         }
         input,
-        textarea {
+        textarea,
+        select {
           outline: none;
           background: #f2f2f2;
           border-radius: 6px;

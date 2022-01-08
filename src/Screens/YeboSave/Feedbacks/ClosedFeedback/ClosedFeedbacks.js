@@ -1,15 +1,20 @@
 import React, { useMemo, useState } from 'react'
 import "./ClosedFeedback.scss";
 import ReactTable from "../../../../Components/ReactTable/ReactTable";
+import SearchBox from '../../../../Components/SerachBox/SearchBox';
 // import StarRating from 'react-star-rating';
 import { Rating } from 'react-simple-star-rating'
 import { Link } from 'react-router-dom';
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import Popup from '../../../../Components/Popup/Popup';
+import EditInClosedFeedbacks from './EditInClosedFeedbacks/EditInClosedFeedbacks';
+
 
 const ClosedFeedbacks = () => {
     const [startDate, setStartDate] = useState(new Date());
     const [toDate, setToDate] = useState(new Date());
+    const [editInClosedFeedbacksPopup, setEditInClosedFeedbacksPopup] = useState(false)
     const [filterInput, setFilterInput] = useState("");
     const [filter, setFilter] = useState("");
     const handleFilterChange = e => {
@@ -185,7 +190,15 @@ const ClosedFeedbacks = () => {
         () => [
             {
                 Header: 'Ticket',
-                accessor: 'Ticket'
+                accessor: 'Ticket',
+                Cell: ({ row, cell: { value } }) => (
+                    <div className="edit_btn" 
+                        onClick={() => {
+                            setEditInClosedFeedbacksPopup(true);
+                        }}>
+                        {value}
+                    </div>
+                )
             },
             {
                 Header: 'Reported On',
@@ -213,57 +226,55 @@ const ClosedFeedbacks = () => {
                 )
 
             },
-            {
-                Header: 'Vendor',
-                accessor: 'Vendor'
-            },
-            {
-                Header: 'Vehicle',
-                accessor: 'Vehicle'
-            },
-            {
-                Header: 'Driver',
-                accessor: 'Driver'
-            },
+            // {
+            //     Header: 'Vendor',
+            //     accessor: 'Vendor'
+            // },
+            // {
+            //     Header: 'Vehicle',
+            //     accessor: 'Vehicle'
+            // },
+            // {
+            //     Header: 'Driver',
+            //     accessor: 'Driver'
+            // },
             {
                 Header: 'Closed By',
                 accessor: 'ClosedBy'
             },
-            {
-                Header: 'Reopens',
-                accessor: 'Reopens'
-            },
+            // {
+            //     Header: 'Reopens',
+            //     accessor: 'Reopens'
+            // },
 
         ]
     )
     const [FormData, setFormData] = useState(data)
-    const [searchfilter, setsearchfilter] = useState('');
-    const handleSearchElements = (event) => {
-        // console.log("searched value", event.target.value);
-        let filterData = [];
-        setsearchfilter(event.target.value)
-        data.forEach((item) => {
-            for (const key in item) {
-                if (item[key].toString().toLowerCase().startsWith(event.target.value.toLowerCase())) {
-                    filterData.push(item);
-                    break;
-                }
-            }
-        })
-        console.log(filterData)
-        setFormData(filterData);
-    }
+  
+
     return (
         <>
-            <div className="closed_feedback">
-                <div className="d-flex">
-                    <div className="closed_feedback_div container py-5">
-                        <div className="manage_agency_table">
-                            <ReactTable columns={columns} data={FormData} />
-                        </div>
+                
+            <div className="manage_agency_table">
+                <div className="datePicker-searchbar">
+                
+                    <div className="date_picker">
+                                    <span>Date</span>
+                                    <DatePicker selected={startDate} onChange={(date) => setStartDate(date)} dateFormat="dd/MM/yyyy" />
+                                    <span>To</span>
+                        <DatePicker selected={toDate} onChange={(date) => setToDate(date)} dateFormat="dd/MM/yyyy" />
+                    </div> 
+                    <div className="search_bar">
+                        <span>Search</span>
+                            <SearchBox />
                     </div>
                 </div>
+                    <ReactTable columns={columns} data={FormData} />
+                    <Popup trigger={editInClosedFeedbacksPopup} setTrigger={setEditInClosedFeedbacksPopup}>
+                        <EditInClosedFeedbacks />
+                    </Popup>
             </div>
+           
         </>
     )
 }

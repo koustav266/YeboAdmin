@@ -38,10 +38,10 @@ const OtpScreen = () => {
             let res = await PostVerifyOTPForLoginService(data)
             if (res) {
                 yeboSetLocal(yeboStorageKeys.userDeatails, res)
-                // history.push({
-                //     pathname: RouteStrings.organizations,
-                //     state: data
-                // });
+                navigate({
+                    pathname: RouteStrings.manageusers,
+                    state: data
+                });
             }
         }
         else {

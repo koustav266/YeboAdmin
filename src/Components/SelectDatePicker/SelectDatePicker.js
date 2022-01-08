@@ -4,7 +4,7 @@ import 'react-datepicker/dist/react-datepicker-cssmodules.css';
 import "react-datepicker/dist/react-datepicker.css";
 
 const SelectDatePicker = () => {
-    const [startDate, setStartDate] = useState(new Date());
+    const [startDate, setStartDate] = useState(null);
     const years = range(1990, (new Date()).getYear() + 1);
 
     function range(start, end) {

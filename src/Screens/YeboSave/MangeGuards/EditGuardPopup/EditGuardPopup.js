@@ -1,10 +1,20 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
+import { useSelector, useDispatch } from "react-redux";
+import moment from 'moment';
 import "./EditGuardPopup.scss";
 import EditIcon from "../../../../Assets/Icons/Edit_Icon.png";
 import Button from "../../../../Components/GlobalComponents/Buttons/Button";
 import GoogleMap from "../../../../Components/GoogleMap/Map"
-const EditGuardPopup = (props) => {
-    // const [employData, setEmployData] = useState(props.employDetails)
+import { fetchGuardAgencies } from "../../../../redux/actions/guardAgenciesAction";
+import { showLoader, hideLoader } from "../../../../redux/actions/loaderAction";
+import { editGuardAction } from '../../../../redux/actions/guardsAction';
+const EditGuardPopup = ({
+    editGuardData = {},
+    setEditGuardPopup=() => {}
+}) => {
+    const guardAgencyData  = useSelector(state => state.guardAgencies.guardAgencies);
+    const dispatch = useDispatch()
+    const [editGuard, setEditGuard] = useState(editGuardData)
     // const handleChange = (event) => {
     //     setEmployData({
     //         ...employData,
@@ -12,44 +22,51 @@ const EditGuardPopup = (props) => {
     //     })
     // }
     const [editDriverDetails, setEditDriverDetails] = useState(false);
-    const [Details, setDetails] = useState(
-        {
-            page1: true,
-            page2: false,
+
+    useEffect(async ()=>{
+        if(guardAgencyData.length === 0){
+            dispatch(showLoader());
+            let res = await dispatch(fetchGuardAgencies());
+            dispatch(hideLoader());
         }
-    )
-    const [DriverData, setDriverData] = useState({
-        id: 1,
-        GuardName: 'John Doe',
-        MobileNo: '9876543210',
-        DriverContactNo: 9876543219,
-        Address: '#118, KHB Colony,7th Block, Koramangala,Bengaluru, Karnataka',
-        Remarks: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Bibendum dolor..',
-        Email: 'abc@123.com',
-        PoliceVerificationDate: '12-08-2021',
-        PoliceVerificationExpDate: '16-08-2021',
-        BackgroundVerificationDate: '18-08-2020',
-        BackgroundVerificationExpDate: '21-08-2020',
-    })
-    const handleChange = (e) => {
-        const { name, value } = e.target
-        if (name === 'employee_no') {
-            setDriverData({
-                ...DriverData,
-                EmployeeNo: value,
+        filterGuardAgencyName();    
+    },[])
+
+    useEffect(()=>{
+        console.log(editGuard)
+    },[editGuard])
+
+    const handleChange = (event) => {
+        const { name, value } = event.target
+        setEditGuard({
+            ...editGuard,
+            [name]: value
+        })
+    }
+
+    const getLatLng = (lat, lng, pos) => {
+        setEditGuard({
+            ...editGuard,
+            location: lat + "," + lng,
+            address1: pos
+        })
+    }
+
+    const filterGuardAgencyName = () => {
+        if(guardAgencyData.length !== 0){
+            let agencyName = guardAgencyData.find((item) => {
+                    return item.idGuardAgency === editGuard.idGuardAgency
             })
-        }
-        else if (name === 'driver_no') {
-            setDriverData({
-                ...DriverData,
-                DriverContactNo: value,
-            })
+            setEditGuard({
+                ...editGuard,
+                guardAgencyName: agencyName.guardAgencyName
+            }) 
         }
     }
     return (
         <>
             <div className="edit_guard_section">
-                <div className="main_heading">
+                <div className="main_heading-EditGuard">
                     <h1 className="heading">Guard Details</h1>
                     {!editDriverDetails && <div className="edit_icon" onClick={() => {
                         setEditDriverDetails(true);
@@ -64,42 +81,85 @@ const EditGuardPopup = (props) => {
                         <div className="editDataContainer">
                             <p>Guard Name</p>
                             {editDriverDetails ?
-                                <input type='text' onChange={handleChange} name='guard_name' value={DriverData.GuardName} style={{ height: 35 }} /> :
-                                <p>{DriverData.GuardName}</p>}
+                                <input 
+                                    type='text' 
+                                    onChange={handleChange} 
+                                    name='guardFullName' 
+                                    value={editGuard.guardFullName} 
+                                /> :
+                                <p>{editGuard.guardFullName}</p>}
                         </div>
                         <div className="editDataContainer">
                             <p>Agency Name*</p>
                             {editDriverDetails ?
-                                <input type='text' onChange={handleChange} name='mobile_no' value={DriverData.MobileNo} style={{ height: 35 }} /> :
-                                <p>{DriverData.MobileNo}</p>}
+                                <select 
+                                    name="idGuardAgency" 
+                                    onClick={handleChange}
+                                >
+                                    <option hidden>{editGuard.guardAgencyName}</option>
+                                    {guardAgencyData.map((agency, index)=>                  
+                                        <option key={index} value={agency.idGuardAgency}>
+                                            {agency.guardAgencyName}
+                                        </option>
+                                    )}
+                                </select> :
+                                <p>{editGuard.guardAgencyName}</p>}
                         </div>
                         <div className="editDataContainer">
                             <p>Phone number*</p>
                             {editDriverDetails ?
-                                <input type='text' onChange={handleChange} name='mobile_no' value={DriverData.MobileNo} style={{ height: 35 }} /> :
-                                <p>{DriverData.MobileNo}</p>}
+                                <input 
+                                    type='text' 
+                                    onChange={handleChange} 
+                                    name='mobileNo' 
+                                    value={editGuard.mobileNo} 
+                                /> :
+                                <p>{editGuard.mobileNo}</p>}
                         </div>
                         <div className="editDataContainer">
                             <p>Email*</p>
                             {editDriverDetails ?
-                                <input type='text' onChange={handleChange} name='mobile_no' value={DriverData.MobileNo} style={{ height: 35 }} /> :
-                                <p>{DriverData.MobileNo}</p>}
+                                <input 
+                                    type='text' 
+                                    onChange={handleChange} 
+                                    name='emailId' 
+                                    value={editGuard.emailId}
+                                /> :
+                                <p>{editGuard.emailId}</p>}
                         </div>
                         <div className="editDataContainer">
                             <p>Latitude</p>
                             {editDriverDetails ?
-                                <input type='text' onChange={handleChange} name='mobile_no' value={DriverData.MobileNo} style={{ height: 35 }} /> :
-                                <p>{DriverData.MobileNo}</p>}
+                                <input 
+                                    type='text' 
+                                    readOnly 
+                                    value={editGuard.location ? 
+                                        editGuard.location.split(",")[0] : ""} 
+                                /> :
+                                <p>{editGuard.location ? 
+                                    editGuard.location.split(",")[0] : ""}</p>}
                         </div>
                         <div className="editDataContainer">
                             <p>Longitude</p>
                             {editDriverDetails ?
-                                <input type='text' onChange={handleChange} name='mobile_no' value={DriverData.MobileNo} style={{ height: 35 }} /> :
-                                <p>{DriverData.MobileNo}</p>}
+                                <input 
+                                    type='text' 
+                                    readOnly
+                                    value={editGuard.location ? 
+                                        editGuard.location.split(",")[1] : ""} 
+                                /> :
+                                <p>{editGuard.location ? 
+                                    editGuard.location.split(",")[1] : ""}</p>}
                         </div>
                     </div>
                     <div className="editGuardRow">
-                        <GoogleMap />
+                        <GoogleMap 
+                            lat={parseFloat(editGuard.location.split(",")[0])} 
+                            lng= {parseFloat(editGuard.location.split(",")[1])}
+                            editDetails={editDriverDetails}
+                            locationAddresh={editGuard.address1}
+                            getLatLng = {getLatLng}
+                        />
                     </div>
                 </div>
 
@@ -110,19 +170,37 @@ const EditGuardPopup = (props) => {
                             <div className="editDataContainer">
                                 <p>Police verification date</p>
                                 {editDriverDetails ?
-                                    <form action="/action_page.php" onChange={handleChange} className="date__picker">
-                                        <input type="date" id="birthday" name='email' value={DriverData.PoliceVerificationDate} style={{ height: 35 }} />
-                                    </form> :
-                                    <p>{DriverData.PoliceVerificationDate}</p>}
+                                    <input 
+                                        type="date" 
+                                        name='policeVerificationDate' 
+                                        value={moment(editGuard.policeVerificationDate).format('YYYY-MM-DD')}
+                                        onChange={(event) => 
+                                            setEditGuard({
+                                                ...editGuard,
+                                                policeVerificationDate: moment.utc(event.target.value).format()
+                                            })
+                                        } 
+                                    />
+                                    :
+                                    <p>{moment(editGuard.policeVerificationDate).format('MM-DD-YYYY')}</p>}
 
                             </div>
                             <div className="editDataContainer">
                                 <p>Background verification date</p>
                                 {editDriverDetails ?
-                                    <form action="/action_page.php" onChange={handleChange} className="date__picker">
-                                        <input type="date" id="birthday" name='email' value={DriverData.PoliceVerificationExpDate} style={{ height: 35 }} />
-                                    </form> :
-                                    <p>{DriverData.PoliceVerificationExpDate}</p>}
+                                    <input 
+                                        type="date" 
+                                        name='backgroundVerificationDate' 
+                                        value={moment(editGuard.backgroundVerificationDate).format('YYYY-MM-DD')}
+                                        onChange={(event) => 
+                                            setEditGuard({
+                                                ...editGuard,
+                                                backgroundVerificationDate: moment.utc(event.target.value).format()
+                                            })
+                                        } 
+                                    />
+                                   :
+                                    <p>{moment(editGuard.backgroundVerificationDate).format('MM-DD-YYYY')}</p>}
                             </div>
                             <div className="editDataContainer">
                                 <form>
@@ -137,19 +215,37 @@ const EditGuardPopup = (props) => {
                             <div className="editDataContainer">
                                 <p>Police verification Exp date</p>
                                 {editDriverDetails ?
-                                    <form action="/action_page.php" onChange={handleChange} className="date__picker">
-                                        <input type="date" id="birthday" name='email' value={DriverData.BackgroundVerificationDate} style={{ height: 35 }} />
-                                    </form> :
-                                    <p>{DriverData.BackgroundVerificationDate}</p>}
+                                  
+                                    <input 
+                                        type="date" 
+                                        name='policeVerificationExpDate' 
+                                        value={moment(editGuard.policeVerificationExpDate).format('YYYY-MM-DD')}
+                                        onChange={(event) => 
+                                            setEditGuard({
+                                                ...editGuard,
+                                                policeVerificationExpDate: moment.utc(event.target.value).format()
+                                            })
+                                        } 
+                                    />
+                                    :
+                                    <p>{moment(editGuard.policeVerificationExpDate).format('MM-DD-YYYY')}</p>}
                             </div>
                             <div className="editDataContainer">
                                 <p>Background verification
                                     Exp date</p>
                                 {editDriverDetails ?
-                                    <form action="/action_page.php" onChange={handleChange} className="date__picker">
-                                        <input type="date" id="birthday" name='email' value={DriverData.BackgroundVerificationExpDate} style={{ height: 35 }} />
-                                    </form> :
-                                    <p>{DriverData.BackgroundVerificationExpDate}</p>}
+                                   <input 
+                                        type="date" 
+                                        name='backgroundVerificationDate' 
+                                        value={moment(editGuard.backgroundVerificationExpDate).format('YYYY-MM-DD')}
+                                        onChange={(event) => 
+                                            setEditGuard({
+                                                ...editGuard,
+                                                backgroundVerificationExpDate: moment.utc(event.target.value).format()
+                                            })
+                                        } 
+                                    /> :
+                                    <p>{moment(editGuard.backgroundVerificationExpDate).format('MM-DD-YYYY')}</p>}
                             </div>
                             <div className="editDataContainer">
                                 <form>
@@ -163,52 +259,13 @@ const EditGuardPopup = (props) => {
                     </div>
                 </div>
                 <div className="addagency-btns">
-                    <Button title='Save' />
-                    <Button title='Cancel' />
+                    <Button title='Save' OnClick={() => {
+                        dispatch(editGuardAction(editGuard))
+                        setEditGuardPopup(false)
+                    }} />
+                    <Button title='Cancel' OnClick={() => setEditGuardPopup(false)}  />
                 </div>
             </div>
-            {/* <div className="edit_guard">
-                <form action="">
-                    <div className="edit_flex my-3">
-                        <p>Name</p>
-                        <input value={employData.Name} name="Name" type="text" onChange={handleChange} style={{ height: 35 }} />
-                    </div>
-                    <div className="edit_flex my-3">
-                        <p>Address</p>
-                        <textarea
-                            name="Address"
-                            aria-describedby="helpId"
-                            onChange={handleChange}
-                            cols="30"
-                            rows="2">
-                            {employData.Address}
-                        </textarea>
-                    </div>
-                    <div className="edit_flex my-3">
-                        <p>Email</p>
-                        <input value={employData.Email} name="email" type="email" style={{ height: 35 }} />
-                    </div>
-                    <div className="edit_flex my-3">
-                        <p>Mobile number</p>
-                        <input value={employData.MobileNumber} name="phone" type="text" style={{ height: 35 }} />
-                    </div>
-                    <div className="edit_flex my-3">
-                        <p>Description</p>
-                        <textarea
-                            name="Note"
-                            aria-describedby="helpId"
-                            cols="30"
-                            rows="2">
-                        </textarea>
-                    </div>
-
-                    <div className="edit_btns mt-5">
-                        <Button title='Update' />
-                        <Button title='Cancel' />
-                        <Button title='Cancel' onClick={handleClose} />
-                    </div>
-                </form>
-            </div> */}
         </>
     )
 }

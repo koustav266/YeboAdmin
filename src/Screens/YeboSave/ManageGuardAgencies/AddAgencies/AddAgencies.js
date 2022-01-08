@@ -56,46 +56,72 @@ const AddAgencies = ({
                     <div className="addGuard_Container">
                         <div className="guardData">
                             <p>Agency Name<span className="text-danger">*</span></p>
-                            <input type="text" name="guardAgencyName"  onChange={handleChange}/>
+                            <input 
+                                type="text" 
+                                name="guardAgencyName"  
+                                onChange={handleChange}
+                                autoComplete='off'  
+                            />
                         </div>
                         {error && 
                             (guardAgenciesData.guardAgencyName === "" ||
                             guardAgenciesData.guardAgencyName === undefined) && 
-                            <p className='errorMessage'>required</p>} 
+                            <p className='errorMessage'>Agency Name required</p>
+                        } 
                         
                         <div className="guardData">
                             <p>Guard Agency Code<span className="text-danger">*</span></p>
-                            <input type="text" name="guardAgencyCode"  onChange={handleChange}/>
+                            <input 
+                                type="text" 
+                                name="guardAgencyCode"  
+                                onChange={handleChange}
+                                autoComplete='off'  
+                            />
                         </div>
                         {error && 
                             (guardAgenciesData.guardAgencyCode === "" ||
                             guardAgenciesData.guardAgencyCode === undefined) && 
-                            <p className='errorMessage'>required</p>} 
+                            <p className='errorMessage'>Guard Agency Code required</p>} 
                         
                         <div className="guardData">
                             <p>Contact Name<span className="text-danger">*</span></p>
-                            <input type="text" name="contactName" onChange={handleChange}/>
+                            <input 
+                                type="text" 
+                                name="contactName" 
+                                onChange={handleChange}
+                                autoComplete='off'    
+                            />
                         </div>
                         {error && 
                             (guardAgenciesData.contactName === "" ||
                             guardAgenciesData.contactName === undefined) && 
-                            <p className='errorMessage'>required</p>}
+                            <p className='errorMessage'>Contact Name required</p>}
                         <div className="guardData">
                             <p>Mobile no<span className="text-danger">*</span></p>
-                            <input type="number"  name='mobileNo' onChange={handleChange} maxlength="10"/>
+                            <input 
+                                type="number"  
+                                name='mobileNo' 
+                                onChange={handleChange} 
+                                autoComplete='off'  
+                            />
                         </div>
                         {error && 
                             (guardAgenciesData.mobileNo === "" ||
                             guardAgenciesData.mobileNo === undefined) && 
-                            <p className='errorMessage'>required</p>}
+                            <p className='errorMessage'>Mobile no required</p>}
                         <div className="guardData">
                             <p>Email<span className="text-danger">*</span></p>
-                            <input type="email" name="emailId" onChange={handleChange}/>
+                            <input 
+                                type="email" 
+                                name="emailId" 
+                                onChange={handleChange}
+                                autoComplete='off'  
+                            />
                         </div>
                         {error && 
                             (guardAgenciesData.emailId === "" ||
                             guardAgenciesData.emailId === undefined) && 
-                            <p className='errorMessage'>required</p>}
+                            <p className='errorMessage'>Email required</p>}
                         <div className="guardData">
                             <p>Descipration</p>
                             <textarea
@@ -107,12 +133,10 @@ const AddAgencies = ({
                             </textarea>
                         </div>
                         <div className="guardData">
-                            
-                                <div className="form-group">
-                                    <p style={{ width: ' 60%' }}>Upload document/ images</p>
-                                    <input type="file" className="form-control-file" id="exampleFormControlFile1" />
-                                </div>
-                         
+                            <div className="form-group">
+                                <p style={{ width: ' 60%' }}>Upload document/ images</p>
+                                <input type="file" className="form-control-file" id="exampleFormControlFile1" />
+                            </div>
                         </div>
                     </div>
                     <div className="addGuard_Container">

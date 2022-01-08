@@ -6,7 +6,7 @@ import Popup from "../../../Components/Popup/Popup";
 // import TicketPopup from "./TicketPopup/TicketPopup";
 import ReactTable from "../../../Components/ReactTable/ReactTable";
 import { Rating } from 'react-simple-star-rating';
-import { Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 
@@ -54,11 +54,41 @@ const Feedbacks = () => {
                         </div> */}
                     </div>
                     <div className="sub_heading my-4">
-                        <div className="feedback_tabs">
-                            <Link to={'/dashboard/yeboSave/Feedbacks'} className="pending_feedback">Pending</Link>
-                            <Link to={'/dashboard/yeboSave/Feedbacks/closedfeedbacks'} className="closed_feedback">Closed</Link>
-                            <Link to={'/dashboard/yeboSave/Feedbacks/appreciationfeedback'} className="appreciation_feedback">Appreciation</Link>
-                        </div>
+                    <div className="feedback_tabs">
+                            
+                        <NavLink 
+                            to={'/dashboard/yeboSave/Feedbacks/'} 
+                            className="pending_feedback"
+                            style={({ isActive }) =>
+                                isActive ? {borderBottom: "#66276e solid 3px"} : {border: "none"}
+                            }
+                        >
+                            In Progress
+                        </NavLink>
+                        <NavLink 
+                            to={'/dashboard/yeboSave/Feedbacks/closedfeedbacks'} 
+                            className="pending_feedback"
+                            style={({ isActive }) =>
+                                isActive ? {borderBottom: "#66276e solid 3px"} : {border: "none"}
+                            }
+                        >
+                            Closed
+                        </NavLink>
+                        <NavLink 
+                            to={'/dashboard/yeboSave/Feedbacks/appreciationfeedback'} 
+                            className="appreciation_feedback"
+                            style={({ isActive }) =>
+                                isActive ? {borderBottom: "#66276e solid 3px"} : {border: "none"}
+                            }
+                        >
+                            Appreciation
+                        </NavLink>
+
+                                {/* <h3 className="pending_feedback">Pending</h3>
+                                <h3>Closed</h3>
+                                <h3>Appreciation</h3> */}
+                            </div>
+
                         {/* <div className="date_search">
                             <div className="search_bar">
                                 <span>Search</span>

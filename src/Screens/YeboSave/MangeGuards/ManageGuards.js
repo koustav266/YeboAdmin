@@ -6,6 +6,7 @@ import AddIcon from "../../../Assets/Icons/Add_Icon.png";
 import SearchBox from '../../../Components/SerachBox/SearchBox';
 import AddGuards from "../MangeGuards/AddGuards/AddGuards";
 import Popup from "../../../Components/Popup/Popup";
+import SuperAdminProfile from '../../../Components/SuperAdminProfile/SuperAdminProfile';
 // import EditIcon from "../../Assets/Icons/Edit_Icon.png";
 // import DeleteGuardPopup from "./DeleteGuardPopup/DeleteGuardPopup";
 import ReactTable from "../../../Components/ReactTable/ReactTable";
@@ -13,6 +14,7 @@ import ReactTable from "../../../Components/ReactTable/ReactTable";
 import { showLoader, hideLoader } from '../../../redux/actions/loaderAction';
 import EditGuardPopup from './EditGuardPopup/EditGuardPopup';
 import { fetchGuards } from '../../../redux/actions/guardsAction';
+import { deleteGuardAction, activeGuardAction } from '../../../redux/actions/guardsAction';
 
 const ManageGuards = () => {
     const dispatch = useDispatch();
@@ -36,6 +38,15 @@ const ManageGuards = () => {
         setGuardData(guards)
     },[guards])
 
+    const deleteActiveGuard =  async (status, guardDetails) => {
+        dispatch(showLoader())
+        if(status === 1)
+            await dispatch(activeGuardAction(guardDetails.idGuard))
+        else
+            await dispatch(deleteGuardAction(guardDetails.idGuard))
+        dispatch(hideLoader())
+    }
+
     const columns = [
         {
             Header: 'Name',
@@ -43,7 +54,7 @@ const ManageGuards = () => {
             Cell: ({ row, cell: { value } }) => (
                 <div className="edit_btn" onClick={() => {
                     setEditGuardPopup(true);
-                    
+                    setEditGiardData(row.original);
                 }}>
                     {value}
                 </div>
@@ -66,17 +77,20 @@ const ManageGuards = () => {
             Header: 'Guard ID',
             accessor: 'idGuard'
         },
+        // {
+        //     Header: 'Description',
+        //     accessor: 'Description'
+        // },
         {
-            Header: 'Description',
-            accessor: 'Description'
-        },
-        {
-            Header: 'Active/Inactive',
-            accessor: 'Active',
-            Cell: ({ cell: { value } }) => (
+            Header: 'Status',
+            accessor: 'activeStatus',
+            Cell: ({row, cell: { value } }) => (
                 <div className="slider_checkbox">
                     <label className="switch">
-                        <input type='checkbox' />
+                        <input 
+                            type='checkbox' checked={value === 18} 
+                            onClick={() => deleteActiveGuard(value, row.original)}
+                        />
                         <span className="slider" />
                         <p className="off">OFF</p>
                         <p className="on">ON</p>
@@ -92,6 +106,7 @@ const ManageGuards = () => {
                     <div className="manage_guard_div container py-5">
                         <div className="main_heading">
                             <h1>Guards</h1>
+                            <SuperAdminProfile />
                         </div>
                         <div className="sub_heading my-4">
                             {/* <h3>Agency Name - # 211211211211</h3> */}
@@ -108,7 +123,11 @@ const ManageGuards = () => {
                                         data={guards} 
                                         setData={setGuardData} 
                                         elements={[
-                                           
+                                            "guardFullName",
+                                            "address1",
+                                            "mobileNo",
+                                            "emailId",
+                                            "idGuard"
                                         ]}
                                     />
                                 </div>
@@ -121,10 +140,10 @@ const ManageGuards = () => {
                             <Button title='Delete' />
                         </div> */}
                         <Popup trigger={addAgencyPopup} setTrigger={setAddAgencyPopup}>
-                            <AddGuards />
+                            <AddGuards setAddAgencyPopup={setAddAgencyPopup} />
                         </Popup>
                         <Popup trigger={editGuardPopup} setTrigger={setEditGuardPopup}  >
-                            <EditGuardPopup />
+                            <EditGuardPopup setEditGuardPopup={setEditGuardPopup} editGuardData={editGuardData} />
                         </Popup>
                         {/* <Popup trigger={deletePopup} setTrigger={setDeletePopup}>
                             <DeleteGuardPopup />

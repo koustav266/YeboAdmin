@@ -89,12 +89,65 @@ function CustomToggle({ children, eventKey }) {
             // to: `/feedbacks`,
             to: RouteStrings.feedbacks,
         },
+        // {
+        //     Id: 5,
+        //     Name: 'Helpdesk',
+        //     MenuIcon: InformationIcon,
+        //     // to: `employeedetails`,
+        //     to: RouteStrings.employeedetails,
+        // },
+    ]
+    const trackdata = [
         {
-            Id: 5,
+            Id: 11,
+            Name: 'Organization',
+            MenuIcon: OrganizationIcon,
+            // to: `organizations`,
+            to: RouteStrings.organizations,
+        },
+        {
+            Id: 12,
+            Name: 'Employee',
+            MenuIcon: Profile,
+            // to: `employeedetailsupload`,
+            to: RouteStrings.employeedetailsupload,
+        },
+        {
+            Id: 13,
+            Name: 'Manage Agencies',
+            MenuIcon: ManageAgencies,
+            // to: `/manageagencies`,
+            to: RouteStrings.manageagencies,
+        },
+        // {
+        //     Id: 14,
+        //     Name: 'Guards',
+        //     MenuIcon: ManageGuards,
+        //     // to: `/manageguards`,
+        //     to: RouteStrings.manageguards,
+        // },
+        {
+            Id: 15,
+            Name: 'Feedbacks',
+            MenuIcon: FeedbackIcon,
+            // to: `/feedbacks`,
+            to: RouteStrings.feedbacks,
+        },
+        {
+            Id: 16,
             Name: 'Helpdesk',
             MenuIcon: InformationIcon,
             // to: `employeedetails`,
             to: RouteStrings.employeedetails,
+        },
+
+
+        {
+            Id: 17,
+            Name: 'Driver',
+            MenuIcon: DriverIcon,
+            // to: `driverdetails`,
+            to: RouteStrings.driverdetails,
         },
     ]
     return (
@@ -113,7 +166,10 @@ function CustomToggle({ children, eventKey }) {
                         border: "none",
                         background: "transparent"
                     }}>
-                    <CustomToggle eventKey="0" style={{background: "transparent"}}>
+                    <CustomToggle 
+                        eventKey="0" 
+                        style={{background: "transparent"}}
+                    >
                         <div className="sidebar_heading" onClick={() => handleClick(0)}>
                             <img src={SOSIcon} alt="profile" />
                             <h3> Yebo Safe</h3>
@@ -142,58 +198,77 @@ function CustomToggle({ children, eventKey }) {
                                     </div>
                                 </NavLink>
                             )
-                        })
-                    }
+                        })}
                             
                     </Card.Body>
                 </Accordion.Collapse>
                 </Card>
                 <Card style={{
-                    background: "transparent",
-                    border: "none"
-                }}>
-                <Card.Header
-                     style={{ 
-                        padding: "0px",
+                        background: "transparent",
                         border: "none"
                     }}>
-                    <CustomToggle eventKey="1">
-                    <div className="sidebar_heading"  onClick={() => handleClick(1)}>
-                            <img src={SOSIcon} alt="profile" />
-                            <h3> Yebo Safe</h3>
-                            {yebosafearrow[1]?
-                                <img src={SideArrow} alt="" /> :
-                                <img src={UpArrow} alt="" />}
-                        </div>
-                    </CustomToggle>
-                </Card.Header>
-                <Accordion.Collapse eventKey="1">
-                    <Card.Body>Hello! I'm another body</Card.Body>
-                </Accordion.Collapse>
+                    <Card.Header
+                        style={{ 
+                            padding: "0px",
+                            border: "none"
+                        }}>
+                        <CustomToggle eventKey="1">
+                            <div className="sidebar_heading"  onClick={() => handleClick(1)}>
+                                <img src={RTrackIcon} alt="profile" />
+                                <h3>Yebo Track</h3>
+                                {yebosafearrow[1]?
+                                    <img src={SideArrow} alt="" /> :
+                                    <img src={UpArrow} alt="" />}
+                            </div>
+                        </CustomToggle>
+                    </Card.Header>
+                    <Accordion.Collapse eventKey="1">
+                        <Card.Body>
+                            {trackdata.map((item, index)=>{
+                                return(
+                                    <NavLink 
+                                        to={item.to}
+                                        key={index}
+                                    >
+                                        <div 
+                                            className="nav_linking" 
+                                            key={item.ID}
+                                        >
+                                            <img src={item.MenuIcon} alt="profile" />
+                                            <div className="menu_text">
+                                                <span>{item.Name}</span>
+                                            </div>
+                                        </div>
+                                    </NavLink>
+                                )
+                            })}
+                                
+                        </Card.Body>
+                    </Accordion.Collapse>
                 </Card>
-                <Card style={{
-                    background: "transparent",
-                    border: "none"
-                }}>
-                <Card.Header
-                 style={{ 
-                    padding: "0px",
-                    border: "none"
-                }}>
-                    <CustomToggle eventKey="2">
-                    <div className="sidebar_heading" onClick={() => handleClick(2)}>
-                            <img src={SOSIcon} alt="profile" />
-                            <h3> Yebo Safe</h3>
-                            {yebosafearrow[2]?
-                                <img src={SideArrow} alt="" /> :
-                                <img src={UpArrow} alt="" />}
-                        </div>
-                    </CustomToggle>
-                </Card.Header>
-                <Accordion.Collapse eventKey="2">
-                    <Card.Body>Hello! I'm another body</Card.Body>
-                </Accordion.Collapse>
-                </Card>
+                {/* <Card style={{
+                        background: "transparent",
+                        border: "none"
+                        }}>
+                    <Card.Header
+                        style={{ 
+                            padding: "0px",
+                            border: "none"
+                        }}>
+                        <CustomToggle eventKey="2">
+                            <div className="sidebar_heading" onClick={() => handleClick(2)}>
+                                <img src={SOSIcon} alt="profile" />
+                                <h3> Yebo Safe</h3>
+                                {yebosafearrow[2]?
+                                    <img src={SideArrow} alt="" /> :
+                                    <img src={UpArrow} alt="" />}
+                            </div>
+                        </CustomToggle>
+                    </Card.Header>
+                    <Accordion.Collapse eventKey="2">
+                        <Card.Body>Hello! I'm another body</Card.Body>
+                    </Accordion.Collapse>
+                </Card> */}
             </Accordion>
         </div>
     );

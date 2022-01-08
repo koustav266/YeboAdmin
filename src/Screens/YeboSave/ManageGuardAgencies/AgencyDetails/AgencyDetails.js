@@ -41,9 +41,12 @@ const AgencyDetails = ({
             <div className="edit_agency_section">
                 <div className="main_headingGuardAgency">
                     <h1 className="heading">{!editAgencyDetails ? "Agencies Details" : "Edit Agencies"}</h1>
-                    {!editAgencyDetails && <div className="edit_icon" onClick={() => {
-                        setEditAgencyDetails(true);
-                    }} >
+                    {!editAgencyDetails && 
+                    <div className="edit_icon" 
+                        onClick={() => {
+                            setEditAgencyDetails(true);
+                        }} 
+                    >
                         <img src={EditIcon} alt="EditIcon" />
                     </div>}
                 </div>
@@ -134,16 +137,8 @@ const AgencyDetails = ({
                     <div className="col-md-5 offset-md-1">
                         <div className="agency_grid">
                             <p>Latitude</p>
-                            {/* {editAgencyDetails ?
-                                <input 
-                                    type='text' 
-                                    onChange={handleChange} 
-                                    name='latitude' 
-                                    value={AgencyData.Latitude} 
-                                    style={{ height: 40 }} /> : */}
-                                <p>{AgencyData.guardAgencyLocation ? 
-                                    AgencyData.guardAgencyLocation.split(",")[0] : ""}</p>
-                                    {/* } */}
+                            <p>{AgencyData.guardAgencyLocation ? 
+                                AgencyData.guardAgencyLocation.split(",")[0] : ""}</p>     
                         </div>
                         <div className="agency_grid">
                             <p>Longitude</p>
@@ -169,8 +164,13 @@ const AgencyDetails = ({
                 </div>
                 <div className="addagency-btns">
 
-                    {editAgencyDetails && <Button type={"button"} title='Save' OnClick={handleEditAgency} />}
-                    <Button type={"button"} title='Cancel' OnClick= {() => setAgencyDetailsPopup(false)} />
+                    {editAgencyDetails && 
+                        <Button type={"button"} title='Save' OnClick={handleEditAgency} />}
+                    <Button 
+                        type={"button"} 
+                        title='Cancel' 
+                        OnClick= {() => setAgencyDetailsPopup(false)} 
+                    />
                 </div>
             </div>
         </>

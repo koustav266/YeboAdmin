@@ -23,6 +23,28 @@ export const guardAgenciesReduser = (state = initialState, {type, payload}) => {
                 return {...state, guardAgencies: agency}
             }
             return state;
+        case ActionTypes.DELETE_GUARD_AGENCY:
+            if(payload){
+                let agency = state.guardAgencies.map(product => {
+                    if (product.idGuardAgency === payload) {
+                        return {...product, activeStatus: 1}
+                    };
+                    return product;
+                });
+                return {...state, guardAgencies: agency}
+            }
+            return state;
+        case ActionTypes.ACTIVE_GUARD_AGENCY:
+            if(payload){
+                let agency = state.guardAgencies.map(product => {
+                    if (product.idGuardAgency === payload) {
+                        return {...product, activeStatus: 18}
+                    };
+                    return product;
+                });
+                return {...state, guardAgencies: agency}
+            }
+            return state;
         default: 
             return state;
     }

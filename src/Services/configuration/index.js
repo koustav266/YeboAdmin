@@ -1,3 +1,5 @@
+
+
 export const configUrl = {
     PostSendOTPForLogin: '/api/Login/PostSendOTPForLogin',
     PostVerifyOTPForLogin: '/api/Login/PostVerifyOTPForLogin',
@@ -12,5 +14,12 @@ export const configUrl = {
     getGuardAgencies: "api/MasterGuardAgency",
     postMasterGuardAgency: "api/MasterGuardAgency",
     editMasterGuardAgency: "api/MasterGuardAgency/",
-    getMasterGuards: "api/MasterGuards"
+    getMasterGuards: "api/MasterGuards",
+    postMasterGuard: "api/MasterGuards",
+    editMasterGuard: "api/MasterGuards/",
+    deleteGuardAgency: "api/MasterGuardAgency/",
+    activeGuardAgency: "api/MasterGuardAgency/ActivateGuardAgency/",
+    deleteGuard: "api/MasterGuards/",
+    activeGuard: "api/MasterGuards/ActivateGuard/"
+    
 }

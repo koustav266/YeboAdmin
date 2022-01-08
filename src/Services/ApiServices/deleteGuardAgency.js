@@ -1,14 +1,22 @@
-import { deleteReqest } from "../baseServiceSetup/serviceMethods";
+import { deleteReqest, putRequest } from "../baseServiceSetup/serviceMethods";
 import { configUrl } from "../configuration";
 
-export const getUsers = async ({
-    
-}) => {
-    const response = await deleteReqest(configUrl.getUsers);
+export const deleteGuardAgency = async (IdGuardAgency) => {
+    const response = await deleteReqest(configUrl.deleteGuardAgency + IdGuardAgency);
     if ( response && response.status === 200) {
         return response.data
     }else{
-        console.log("postSendOTPForLoginService errr ===>");
+        console.log("Delete api error");
+    }
+
+}
+
+export const activeGuardAgency = async (IdGuardAgency) => {
+    const response = await putRequest(configUrl.activeGuardAgency + IdGuardAgency);
+    if ( response && response.status === 200) {
+        return response.data
+    }else{
+        console.log("Active api error");
     }
 
 }

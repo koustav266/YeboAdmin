@@ -3,14 +3,16 @@
   .editline_btn {
     text-decoration: underline;
   }
+  td{
+    padding: 10px;
+  }
   td,
   th {
-    padding: 0.5rem 0.3rem !important;
     vertical-align: middle;
     text-align: center;
-    border-top: none !important;
+    border-top: none;
     font-weight: 500;
-    font-size: 12px;
+    font-size: 0.76rem;
     line-height: 35px;
     color: #000;
   }
@@ -29,8 +31,9 @@
       border-bottom: 2px solid #dee2e6;
       color: #ffffff;
       vertical-align: middle;
-      font-size: 14px !important;
+      font-size: 12px;
       background-color: #66276e;
+      padding: 5px !important;
     }
   }
   tbody {
